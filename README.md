@@ -1,2 +1,2 @@
 # CoursePicker
-Analyze grade report from TAMU registrar to choose the best professors
+Analyze grade reports from TAMU registrar to choose the best professors
