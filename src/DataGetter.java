@@ -11,10 +11,20 @@ public class DataGetter {
     private PDFTextStripper stripper;
     private String data;
 
+    /**
+     *
+     * @param url a string specifies where the data comes from
+     * @throws Exception if the documents doesn't end with .pdf or connection cannot be made
+     */
     public DataGetter(String url) throws Exception{
         this(new URL(url));
     }
 
+    /**
+     *
+     * @param url an URl object specifies where the data comes from
+     * @throws Exception if the documents doesn't end with .pdf or connection cannot be made
+     */
     public DataGetter(URL url) throws Exception{
         if (!url.getFile().endsWith(".pdf"))
             throw new Exception("DataGetter Error: url must end with .pdf");
@@ -24,6 +34,11 @@ public class DataGetter {
         this.data = stripper.getText(pd);
         pd.close();
     }
+
+    /**
+     *
+     * @return the data as a string
+     */
     String getData(){
         return this.data;
     }
