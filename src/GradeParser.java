@@ -75,13 +75,17 @@ public class GradeParser{
                 return false;
             }else{
                 String result = this.data.substring(begin,end);
-                int startOfGarbage = result.indexOf("COLLEGE");
-                if (startOfGarbage != -1){
-                    int endOfGarbage = result.indexOf("STATION",startOfGarbage);
-                    if (endOfGarbage == -1)
-                        return false;
-                    else{
-                        result = result.substring(0,startOfGarbage) + result.substring(endOfGarbage);
+                while (true) {
+                    int startOfGarbage = result.indexOf("COLLEGE");
+                    if (startOfGarbage != -1) {
+                        int endOfGarbage = result.indexOf("STATION", startOfGarbage);
+                        if (endOfGarbage == -1)
+                            return false;
+                        else {
+                            result = result.substring(0, startOfGarbage) + result.substring(endOfGarbage+7);
+                        }
+                    }else {
+                        break;
                     }
                 }
                 return this.parseToCourses(result);
@@ -102,7 +106,7 @@ public class GradeParser{
                 courseName = courseAndSection.substring(0, 8);
                 section = Integer.parseInt(courseAndSection.substring(9));
                 float gpa = in.nextFloat();
-                instructor = in.next() +" "+ in.next();
+                instructor = in.nextLine();
                 in.next(); // garbage percentage of A
                 A = in.nextInt();
                 B = in.nextInt();

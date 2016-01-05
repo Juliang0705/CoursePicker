@@ -17,7 +17,10 @@ public class Main {
             String data = getter.getData();
             //String data = readFile("sample.txt", StandardCharsets.UTF_8);
             GradeParser parser = new GradeParser(data);
-            List<Course> courseList = parser.getCourse("ENGR","111");
+            List<Course> courseList = parser.getCourse("ENGR","112");
+            for (Course c: courseList){
+                System.out.println(c);
+            }
         } catch (Exception e){
             System.out.println("Exception" + e);
         }
