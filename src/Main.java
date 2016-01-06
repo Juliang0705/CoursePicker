@@ -23,7 +23,7 @@ public class Main {
                 total += c.total();
             }
             System.out.println("Total: " + total);*/
-            List<Course> courseList = GradeGetter.getInstance().getCourse("CSCE-411",4,true);
+            List<Course> courseList = GradeGetter.getInstance().getCourse("GEOG 203",6,true);
             for (Course c: courseList){
                 System.out.println(c);
             }

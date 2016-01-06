@@ -142,26 +142,46 @@ public class GradeGetter {
     /**
      *
      * @param course course string such as "CSCE-121", "ENGR111"
-     * @param years
-     * @param compress
-     * @return
-     * @throws Exception
+     * @param years number of year in integer, must be within (0,currentYear - 2010]
+     * @param compress reduce duplicate course with the same professor
+     * @return  a List of courses
+     * @throws Exception if inputs are not correctly formatted
      */
     public List<Course> getCourse(String course, int years,boolean compress) throws Exception{
         List<String> urlList = this.makeURL(course,years);
         List<Course> courseList = new ArrayList<>();
+        List<Thread> threadList = new ArrayList<>();
         for (String url: urlList){
-            String filename =  url.substring(url.lastIndexOf("/")+1);
-            if (this.parserMap.containsKey(filename)){
-                GradeParser parser = this.parserMap.get(filename);
-                courseList.addAll(parser.getCourse(course));
-            }else{
-                DataGetter getter = new DataGetter(url);
-                GradeParser parser = new GradeParser(getter.getData());
-                courseList.addAll(parser.getCourse(course));
-                this.parserMap.put(filename,parser);
-            }
+            threadList.add(new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String filename = url.substring(url.lastIndexOf("/") + 1);
+                        if(parserMap.containsKey(filename))
+
+                        { // get from the cache
+                            GradeParser parser = parserMap.get(filename);
+                            courseList.addAll(parser.getCourse(course));
+                        }
+
+                        else
+
+                        {// get from url or local files
+                            DataGetter getter = new DataGetter(url);
+                            GradeParser parser = new GradeParser(getter.getData());
+                            courseList.addAll(parser.getCourse(course));
+                            parserMap.put(filename, parser);
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+            }));
         }
+        for (Thread t: threadList)
+            t.start();
+        for (Thread t: threadList)
+            t.join();
         if (compress)
             return GradeAnalyzer.compress(courseList);
         else
