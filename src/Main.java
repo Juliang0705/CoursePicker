@@ -12,17 +12,23 @@ public class Main {
     }
     public static void main(String[] args) {
         try {
-            /*URL link = new URL("http://web-as.tamu.edu/gradereport/PDFReports/20151/grd20151EN.pdf");
+           /* URL link = new URL("http://web-as.tamu.edu/gradereport/PDFReports/20153/grd20153EN.pdf");
             DataGetter getter = new DataGetter(link);
-            String data = getter.getData();*/
-            String data = readFile("sample.txt", StandardCharsets.UTF_8);
+            String data = getter.getData();
             GradeParser parser = new GradeParser(data);
-            List<Course> courseList = GradeAnalyzer.compress(parser.getCourse("CSCE","121"));
+            List<Course> courseList = GradeAnalyzer.compress(parser.getCourse("ENGR",112));
+            int total = 0;
+            for (Course c: courseList){
+                System.out.println(c);
+                total += c.total();
+            }
+            System.out.println("Total: " + total);*/
+            List<Course> courseList = GradeGetter.getInstance().getCourse("CSCE-411",4,true);
             for (Course c: courseList){
                 System.out.println(c);
             }
         } catch (Exception e){
-            System.out.println("Exception" + e);
+            System.out.println("Exception: " + e);
         }
     }
 }

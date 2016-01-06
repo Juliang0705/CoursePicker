@@ -4,19 +4,46 @@
 import java.util.*;
 
 public class GradeAnalyzer {
-    static List<Course> compress(List<Course> courseList){
-        HashMap<String,Course> courseMap = new HashMap<>();
+
+    /**
+     * this method takes a list of Course objects and combine all the sections that have the same professors
+     * honor sections and regular sections are separate
+     * @param courseList a List of Courses
+     * @return a List of non-duplicate Courses
+     * @throws Exception if the list contains different courses
+     */
+    static List<Course> compress(List<Course> courseList) throws Exception {
+        HashMap<String,List<Course>> courseMap = new HashMap<>();
         for (Course c : courseList){
+            //add honor course and regular course separately
             if (courseMap.containsKey(c.getInstructor())){
                 try {
-                    courseMap.get(c.getInstructor()).add(c);
+                    List<Course> instructorList = courseMap.get(c.getInstructor());
+                    boolean hasAdded = false;
+                    for (Course cls: instructorList){
+                        if (cls.isHonor() == c.isHonor()) {
+                            cls.add(c);
+                            hasAdded = true;
+                        }
+                    }
+                    if (!hasAdded)
+                        instructorList.add(c);
                 } catch (Exception e) {
                     System.out.println(e);
+                    throw new Exception("List contains different courses");
                 }
             }else{
-                courseMap.put(c.getInstructor(),c);
+                List<Course> newList = new ArrayList<>();
+                newList.add(c);
+                courseMap.put(c.getInstructor(),newList);
             }
         }
-        return new ArrayList<>(courseMap.values());
+        List<Course> compressedList = new ArrayList<>();
+        for (List<Course> list: courseMap.values()){
+            for (Course c: list){
+                compressedList.add(c);
+            }
+        }
+        return compressedList;
     }
 }

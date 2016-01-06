@@ -111,4 +111,32 @@ public class GradeParser{
             throw new Exception("GradeParser Error: Something wrong with the source or the course doesn't exist");
     }
 
+    /**
+     *
+     * @param course a string such as "MEEN-121" or "MEEN121"
+     * @return a list of courses according to the parameters
+     * @throws Exception if document cannot be parsed or the course not found
+     */
+    public List<Course> getCourse(String course) throws Exception{
+        String courseAbbr = course.substring(0,4);
+        String number = null;
+        if (course.charAt(4) == '-' || course.charAt(4) == ' '){
+            number = course.substring(5);
+        }else{
+            number = course.substring(4);
+        }
+        return getCourse(courseAbbr,number);
+    }
+
+    /**
+     *
+     * @param courseAbbr a string such as "MEEN"
+     * @param number a string such as "220"
+     * @return a list of courses according to the parameters
+     * @throws Exception if document cannot be parsed or the course not found
+     */
+    public List<Course> getCourse(String courseAbbr, int number) throws Exception{
+        return getCourse(courseAbbr,String.valueOf(number));
+    }
+
 }
