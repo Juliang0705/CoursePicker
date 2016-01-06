@@ -12,18 +12,7 @@ public class Main {
     }
     public static void main(String[] args) {
         try {
-           /* URL link = new URL("http://web-as.tamu.edu/gradereport/PDFReports/20153/grd20153EN.pdf");
-            DataGetter getter = new DataGetter(link);
-            String data = getter.getData();
-            GradeParser parser = new GradeParser(data);
-            List<Course> courseList = GradeAnalyzer.compress(parser.getCourse("ENGR",112));
-            int total = 0;
-            for (Course c: courseList){
-                System.out.println(c);
-                total += c.total();
-            }
-            System.out.println("Total: " + total);*/
-            List<Course> courseList = GradeGetter.getInstance().getCourse("GEOG 203",6,true);
+            List<Course> courseList = GradeGetter.getInstance().getCourse("STAT 211",5,true);
             for (Course c: courseList){
                 System.out.println(c);
             }

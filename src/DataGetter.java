@@ -45,11 +45,16 @@ public class DataGetter {
      * @return a pair of Boolean and String. First = true if file exists, Second = filename
      */
     private Pair<Boolean,String> isOnLocal(URL url){
+        //check if the directory already exists
+        File dir = new File("CoursePickerData");
+        if (!dir.exists()){
+            dir.mkdir();
+        }
         String filename = url.getFile();
         int index = filename.lastIndexOf("/");
         String localFileName = filename.substring(index+1,filename.length()-4) + ".txt";
-        File localFile = new File(localFileName);
-        return new Pair(localFile.exists() && localFile.isFile(),localFile.getName());
+        File localFile = new File(dir + "/" +localFileName);
+        return new Pair(localFile.exists() && localFile.isFile(),localFile.getAbsolutePath());
     }
     /**
      * read the data from the url
