@@ -54,7 +54,7 @@ public class DataGetter {
         int index = filename.lastIndexOf("/");
         String localFileName = filename.substring(index+1,filename.length()-4) + ".txt";
         File localFile = new File(dir + "/" +localFileName);
-        return new Pair(localFile.exists() && localFile.isFile(),localFile.getAbsolutePath());
+        return new Pair<>(localFile.exists() && localFile.isFile(),localFile.getAbsolutePath());
     }
     /**
      * read the data from the url
