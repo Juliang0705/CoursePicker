@@ -66,27 +66,30 @@ public class GradeAnalyzer {
     }
 
     static void sortByGPA(List<Course> courseList){
-        courseList.sort((a,b) -> Float.compare(a.getAverage(),b.getAverage()));
+        courseList.sort((a,b) -> Float.compare(b.getAverage(),a.getAverage()));
     }
     static void sortByGPAWithQdrop(List<Course> courseList){
-        courseList.sort((a,b) -> Float.compare(a.getAverageWithQdrop(),b.getAverageWithQdrop()));
+        courseList.sort((a,b) -> Float.compare(b.getAverageWithQdrop(),a.getAverageWithQdrop()));
     }
     static void sortByA(List<Course> courseList){
-        courseList.sort((a,b) -> Float.compare(a.getAPercentage(),b.getAPercentage()));
+        courseList.sort((a,b) -> Float.compare(b.getAPercentage(),a.getAPercentage()));
     }
     static void sortByB(List<Course> courseList){
-        courseList.sort((a,b) -> Float.compare(a.getBPercentage(),b.getBPercentage()));
+        courseList.sort((a,b) -> Float.compare(b.getBPercentage(),a.getBPercentage()));
     }
     static void sortByC(List<Course> courseList){
-        courseList.sort((a,b) -> Float.compare(a.getCPercentage(),b.getCPercentage()));
+        courseList.sort((a,b) -> Float.compare(b.getCPercentage(),a.getCPercentage()));
     }
     static void sortByD(List<Course> courseList){
-        courseList.sort((a,b) -> Float.compare(a.getDPercentage(),b.getDPercentage()));
+        courseList.sort((a,b) -> Float.compare(b.getDPercentage(),a.getDPercentage()));
     }
     static void sortByF(List<Course> courseList){
-        courseList.sort((a,b) -> Float.compare(a.getFPercentage(),b.getFPercentage()));
+        courseList.sort((a,b) -> Float.compare(b.getFPercentage(),a.getFPercentage()));
     }
     static void sortByQ(List<Course> courseList){
-        courseList.sort((a,b) -> Float.compare(a.getQPercentage(),b.getQPercentage()));
+        courseList.sort((a,b) -> Float.compare(b.getQPercentage(),a.getQPercentage()));
+    }
+    static void sortByInstructorName(List<Course> courseList){
+        courseList.sort((a,b)->a.getInstructor().compareTo(b.getInstructor()));
     }
 }

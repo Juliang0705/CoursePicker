@@ -28,8 +28,10 @@ public class Course {
         this.Q = Q;
         this.course = courseName;
         this.section = section;
-        if (isHonor())
+        if (isHonor()) {
             this.section += "(Honor)";
+            this.instructor += "(Honor)";
+        }
     }
 
     /**

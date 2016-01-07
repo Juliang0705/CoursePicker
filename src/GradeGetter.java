@@ -148,20 +148,20 @@ public class GradeGetter {
      * @throws Exception if inputs are not correctly formatted
      */
     public List<Course> getCourse(String course, int years,boolean compress) throws Exception{
-        List<String> urlList = this.makeURL(course,years);
+        String courseUpper = course.toUpperCase();
+        List<String> urlList = this.makeURL(courseUpper,years);
         List<Course> courseList = new ArrayList<>();
         List<Thread> threadList = new ArrayList<>();
+        boolean exceptionOccurred = false;
         for (String url: urlList){
-            threadList.add(new Thread(new Runnable() {
-                @Override
-                public void run() {
+            threadList.add(new Thread(() -> {
                     try {
                         String filename = url.substring(url.lastIndexOf("/") + 1);
                         if(parserMap.containsKey(filename))
 
                         { // get from the cache
                             GradeParser parser = parserMap.get(filename);
-                            courseList.addAll(parser.getCourse(course));
+                            courseList.addAll(parser.getCourse(courseUpper));
                         }
 
                         else
@@ -169,13 +169,12 @@ public class GradeGetter {
                         {// get from url or local files
                             DataGetter getter = new DataGetter(url);
                             GradeParser parser = new GradeParser(getter.getData());
-                            courseList.addAll(parser.getCourse(course));
+                            courseList.addAll(parser.getCourse(courseUpper));
                             parserMap.put(filename, parser);
                         }
                     } catch (Exception e) {
                         System.out.println(e);
                     }
-                }
             }));
         }
         for (Thread t: threadList)

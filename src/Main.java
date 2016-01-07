@@ -1,4 +1,4 @@
-import com.sun.tools.javac.util.Pair;
+/*import com.sun.tools.javac.util.Pair;
 import java.util.*;
 
 public class Main {
@@ -19,4 +19,4 @@ public class Main {
             System.out.println("Exception: " + e);
         }
     }
-}
+}*/
