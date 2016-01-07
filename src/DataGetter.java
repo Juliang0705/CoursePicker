@@ -4,13 +4,22 @@
  */
 import java.net.*;
 
-import com.sun.tools.javac.util.Pair;
 import org.apache.pdfbox.pdmodel.*;
 import org.apache.pdfbox.text.PDFTextStripper;
 import java.io.*;
 import java.nio.charset.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+
+class Pair<T1,T2>{
+    public final T1 fst;
+    public final T2 snd;
+    public Pair(T1 elem1, T2 elem2){
+        this.fst = elem1;
+        this.snd = elem2;
+    }
+}
 
 public class DataGetter {
     private PDDocument pd;

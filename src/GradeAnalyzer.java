@@ -2,7 +2,6 @@
  * Created by Juliang on 1/5/16.
  */
 import java.util.*;
-import com.sun.tools.javac.util.Pair;
 
 public class GradeAnalyzer {
 

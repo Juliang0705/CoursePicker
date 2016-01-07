@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import com.sun.tools.javac.util.Pair;
 import java.util.*;
 
 public class CoursePicker extends Application {
