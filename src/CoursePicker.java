@@ -124,7 +124,7 @@ public class CoursePicker extends Application {
         //combo box event -> get graph
         this.instructorList.setOnMouseClicked(event ->{
             String selectedInstructor = this.instructorList.getSelectionModel().getSelectedItem();
-            if (this.currentInstructor != null && this.currentInstructor.equals(selectedInstructor))
+            if (selectedInstructor == null || this.currentInstructor != null && this.currentInstructor.equals(selectedInstructor))
                 return;
             else
                 this.currentInstructor = selectedInstructor;
@@ -138,10 +138,11 @@ public class CoursePicker extends Application {
         //toggle button event -> draw chart
         this.chartToggle.selectedToggleProperty().addListener((ov,ot,nt)->{
             String selectedInstructor = this.instructorList.getSelectionModel().getSelectedItem();
-            if (selectedInstructor == null)
+            Toggle t = this.chartToggle.getSelectedToggle();
+            if (selectedInstructor == null || t == null)
                 return;
+            String data = t.getUserData().toString();
             Course selectedCourse = this.instructorMap.get(selectedInstructor);
-            String data = this.chartToggle.getSelectedToggle().getUserData().toString();
             if (data.equals("Pie")){
                 this.makePieChart(selectedCourse);
             }else if (data.equals("Bar")){
@@ -256,7 +257,7 @@ public class CoursePicker extends Application {
         this.root = new Pane();
         this.initUI(root);
         this.initActions();
-        primaryStage.setScene(new Scene(root,600,400));
+        primaryStage.setScene(new Scene(root,600,400,Color.rgb(80,0,0,0.5)));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
