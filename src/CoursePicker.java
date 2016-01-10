@@ -30,6 +30,8 @@ public class CoursePicker extends Application {
     private Label exceptionLabel;
     private Chart chartGraph;
     private ToggleGroup chartToggle;
+    private RadioButton pieButton;
+    private RadioButton barButton;
     private Label sortLabel;
     private ComboBox<String> sortDropDownList;
     private Label gpaLabel;
@@ -72,8 +74,8 @@ public class CoursePicker extends Application {
         setPos(this.exceptionLabel,390,60);
         //toggle button
         this.chartToggle = new ToggleGroup();
-        RadioButton pieButton = new RadioButton("Pie Chart");
-        RadioButton barButton = new RadioButton("Bar Chart");
+        this.pieButton = new RadioButton("Pie Chart");
+        this.barButton = new RadioButton("Bar Chart");
         pieButton.setUserData("Pie");
         barButton.setUserData("Bar");
         pieButton.setToggleGroup(this.chartToggle);
@@ -113,7 +115,6 @@ public class CoursePicker extends Application {
                     instructors.add(c.getInstructor());
                 }
                 this.instructorList.setItems(instructors);
-                this.chartToggle.selectToggle(null);
                 this.sortDropDownList.setValue("Name");
                 this.exceptionLabel.setText(""); // no exception happened
             }catch (Exception e){
@@ -131,6 +132,7 @@ public class CoursePicker extends Application {
             this.makePieChart(selectedCourse);
             this.gpaLabel.setText("                     GPA: " + String.format("%.2f",selectedCourse.getAverage()) +
                                 "\nGPA with Q-Drop: " + String.format("%.2f",selectedCourse.getAverageWithQdrop()));
+            this.chartToggle.selectToggle(this.pieButton);
         });
 
 
