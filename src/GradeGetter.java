@@ -59,7 +59,8 @@ public class GradeGetter {
             this.courseMap.put(abbr,"AR");
         }
         //For Education : ED
-        String[] EDCourses = {"CEHD"};
+        String[] EDCourses = {"CEHD","EDAD","TAMG","EHRD","INST","MASC","BEFB","BIED","CPSY","EDTC","EPFB","EPSY","SEFB",
+                            "SPED","SPSY","ATTR","DCED","HEFB","HLTH","KINE","SPMT","EDCI","MEFB","RDNG","TEFB",};
         for (String abbr: EDCourses){
             this.courseMap.put(abbr,"ED");
         }
