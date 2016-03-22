@@ -114,17 +114,19 @@ public class GradeGetter {
         if (abbr == null)
             throw new Exception(course + " is not supported");
         List<String> urlList = new ArrayList<>();
-        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
         int[] semesters = {1,3}; // 1 is spring 3 is fall 2 is summer
         //http://web-as.tamu.edu/gradereport/PDFReports/20143/grd20143EN.pdf;
         if (month < 3){ // last spring record is available
             urlList.add("http://web-as.tamu.edu/gradereport/PDFReports/" + (year-1) + 1 +"/grd" + (year-1)
                     + 1 + abbr + ".pdf");
         }
+
         else if (month >= 3 && month < 7){ // last year record available
-            for (int j : semesters)
-                urlList.add("http://web-as.tamu.edu/gradereport/PDFReports/" + (year-1) +j +"/grd" + (year-1)
-                    + j + abbr + ".pdf");
+            for (int j : semesters) {
+                urlList.add("http://web-as.tamu.edu/gradereport/PDFReports/" + (year - 1) + j + "/grd" + (year - 1)
+                        + j + abbr + ".pdf");
+            }
         }else if (month >= 7 ){ // this spring and last year record available
             urlList.add("http://web-as.tamu.edu/gradereport/PDFReports/" + year + 1 +"/grd" + year
                     + 1 + abbr + ".pdf");
