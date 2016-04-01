@@ -1,4 +1,4 @@
-/**
+package CoursePicker; /**
  * Created by Juliang on 1/4/16.
  * this class get raw pdf data from url and parse it to string
  */
@@ -74,7 +74,7 @@ public class DataGetter {
      */
     public DataGetter(URL url) throws Exception{
         if (!url.getFile().endsWith(".pdf"))
-            throw new Exception("DataGetter Error: url must end with .pdf");
+            throw new Exception("CoursePicker.DataGetter Error: url must end with .pdf");
         Pair<Boolean,String> filePair = this.isOnLocal(url);
         if (filePair.fst){
             this.data = readFile(filePair.snd, StandardCharsets.UTF_8);

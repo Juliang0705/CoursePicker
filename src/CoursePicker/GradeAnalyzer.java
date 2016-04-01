@@ -1,4 +1,4 @@
-/**
+package CoursePicker; /**
  * Created by Juliang on 1/5/16.
  */
 import java.util.*;
@@ -6,7 +6,7 @@ import java.util.*;
 public class GradeAnalyzer {
 
     /**
-     * this method takes a list of Course objects and combine all the sections that have the same professors
+     * this method takes a list of CoursePicker.Course objects and combine all the sections that have the same professors
      * honor sections and regular sections are separate
      * @param courseList a List of Courses
      * @return a List of non-duplicate Courses
@@ -49,8 +49,8 @@ public class GradeAnalyzer {
 
     /**
      * separate courses by honor distinction
-     * @param courseList a List of Course
-     * @return a pair of List of Course. The first one is regular Course. The Second one if honor Course
+     * @param courseList a List of CoursePicker.Course
+     * @return a pair of List of CoursePicker.Course. The first one is regular CoursePicker.Course. The Second one if honor CoursePicker.Course
      */
     static Pair<List<Course>,List<Course>> separateByDistinction(List<Course> courseList){
         List<Course> regularList = new ArrayList<>();

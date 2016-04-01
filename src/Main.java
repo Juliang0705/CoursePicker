@@ -14,8 +14,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.util.*;
+import CoursePicker.*;
 
-public class CoursePicker extends Application {
+public class Main extends Application {
     private Pane root;
     private Label inputLabel;
     private TextField inputTextField;
@@ -41,7 +42,7 @@ public class CoursePicker extends Application {
     }
     private void initUI(Pane root){
         //input label
-        this.inputLabel = new Label("Course Name:");
+        this.inputLabel = new Label("CoursePicker.Course Name:");
         setPos(this.inputLabel,100,30);
         //input textField
         this.inputTextField = new TextField();
@@ -254,7 +255,7 @@ public class CoursePicker extends Application {
     }
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Course Picker");
+        primaryStage.setTitle("CoursePicker.Course Picker");
         this.root = new Pane();
         this.initUI(root);
         this.initActions();

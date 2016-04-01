@@ -1,3 +1,5 @@
+package CoursePicker;
+
 /**
  * Created by Juliang on 1/5/16.
  * A class represents courses
@@ -105,7 +107,7 @@ public class Course {
 
     /**
      *
-     * @param other another Course object
+     * @param other another CoursePicker.Course object
      * @throws Exception if instructor or and course name are not the same
      */
     public void add(Course other) throws Exception{
