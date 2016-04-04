@@ -26,8 +26,8 @@ public class Main extends Application {
     private Label instructorLabel;
     private ListView<String> instructorList;
     private String currentInstructor;
-    private HashMap<String,Course> instructorMap;
-    private List<Course> courseList;
+    private HashMap<String,PastCourse> instructorMap;
+    private List<PastCourse> courseList;
     private Label exceptionLabel;
     private Chart chartGraph;
     private ToggleGroup chartToggle;
@@ -42,7 +42,7 @@ public class Main extends Application {
     }
     private void initUI(Pane root){
         //input label
-        this.inputLabel = new Label("CoursePicker.Course Name:");
+        this.inputLabel = new Label("Course Name:");
         setPos(this.inputLabel,100,30);
         //input textField
         this.inputTextField = new TextField();
@@ -111,7 +111,7 @@ public class Main extends Application {
                 GradeAnalyzer.sortByInstructorName(this.courseList);
                 this.instructorMap = new HashMap<>();
                 ObservableList<String> instructors = FXCollections.observableArrayList();
-                for (Course c : this.courseList){
+                for (PastCourse c : this.courseList){
                     this.instructorMap.put(c.getInstructor(),c);
                     instructors.add(c.getInstructor());
                 }
@@ -129,7 +129,7 @@ public class Main extends Application {
                 return;
             else
                 this.currentInstructor = selectedInstructor;
-            Course selectedCourse = this.instructorMap.get(selectedInstructor);
+            PastCourse selectedCourse = this.instructorMap.get(selectedInstructor);
             this.makePieChart(selectedCourse);
             this.gpaLabel.setText("                     GPA: " + String.format("%.2f",selectedCourse.getAverage()) +
                                 "\nGPA with Q-Drop: " + String.format("%.2f",selectedCourse.getAverageWithQdrop()));
@@ -144,7 +144,7 @@ public class Main extends Application {
             if (selectedInstructor == null || t == null)
                 return;
             String data = t.getUserData().toString();
-            Course selectedCourse = this.instructorMap.get(selectedInstructor);
+            PastCourse selectedCourse = this.instructorMap.get(selectedInstructor);
             if (data.equals("Pie")){
                 this.makePieChart(selectedCourse);
             }else if (data.equals("Bar")){
@@ -179,7 +179,7 @@ public class Main extends Application {
             }else
                 System.out.println("Unexpected Selection: " + nt);
             ObservableList<String> instructors = FXCollections.observableArrayList();
-            for (Course c: this.courseList){
+            for (PastCourse c: this.courseList){
                 instructors.add(c.getInstructor());
             }
             this.instructorList.setItems(instructors);
@@ -187,7 +187,7 @@ public class Main extends Application {
 
         });
     }
-    private void makePieChart(Course c){
+    private void makePieChart(PastCourse c){
         this.root.getChildren().remove(this.chartGraph); // remove old graph
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
@@ -209,7 +209,7 @@ public class Main extends Application {
         this.chartGraph = chart;
         this.root.getChildren().add(this.chartGraph);       // add new graph
     }
-    private void makeBarChart(Course c){
+    private void makeBarChart(PastCourse c){
         this.root.getChildren().remove(this.chartGraph); // remove old graph
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -255,7 +255,7 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("CoursePicker.Course Picker");
+        primaryStage.setTitle("CoursePicker.PastCourse Picker");
         this.root = new Pane();
         this.initUI(root);
         this.initActions();
