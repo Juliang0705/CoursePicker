@@ -1,4 +1,5 @@
-package CoursePicker; /**
+package CoursePicker;
+/**
  * Created by Juliang on 1/4/16.
  * parse the grade reports from tamu registrar
  */
@@ -11,7 +12,7 @@ import java.nio.charset.Charset;
 public class GradeParser{
 
     private String data;
-    private List<Course> courseList;
+    private List<PastCourse> pastCourseList;
 
     /**
      *
@@ -56,7 +57,7 @@ public class GradeParser{
         try {
             InputStream stream = new ByteArrayInputStream(source.getBytes(Charset.forName("UTF-8")));
             Scanner in = new Scanner(stream);
-            this.courseList = new ArrayList<>();
+            this.pastCourseList = new ArrayList<>();
             String courseName,instructor, section;
             int A,B,C,D,F,Q;
             do {
@@ -80,12 +81,12 @@ public class GradeParser{
                 Q = in.nextInt();
                 in.nextLine();
                 in.nextLine();
-                Course course = new Course(courseName,section,instructor,A,B,C,D,F,Q);
-                this.courseList.add(course);
+                PastCourse pastCourse = new PastCourse(courseName,section,instructor,A,B,C,D,F,Q);
+                this.pastCourseList.add(pastCourse);
             }while (in.hasNext());
         }
         catch (Exception e) {
-            this.courseList = null;
+            this.pastCourseList = null;
             return false;
         }
         return true;
@@ -104,9 +105,9 @@ public class GradeParser{
      * @return a list of courses according to the parameters
      * @throws Exception if document cannot be parsed or the course not found
      */
-    public List<Course> getCourse(String courseAbbr, String number) throws Exception {
+    public List<PastCourse> getCourse(String courseAbbr, String number) throws Exception {
         if (this.parse(courseAbbr,number)){
-            return this.courseList;
+            return this.pastCourseList;
         }else
             throw new Exception("CoursePicker.GradeParser Error: Something wrong with the source or the course doesn't exist");
     }
@@ -117,9 +118,9 @@ public class GradeParser{
      * @return a list of courses according to the parameters
      * @throws Exception if document cannot be parsed or the course not found
      */
-    public List<Course> getCourse(String course) throws Exception{
+    public List<PastCourse> getCourse(String course) throws Exception{
         String courseAbbr = course.substring(0,4);
-        String number = null;
+        String number;
         if (course.charAt(4) == '-' || course.charAt(4) == ' '){
             number = course.substring(5);
         }else{
@@ -135,7 +136,7 @@ public class GradeParser{
      * @return a list of courses according to the parameters
      * @throws Exception if document cannot be parsed or the course not found
      */
-    public List<Course> getCourse(String courseAbbr, int number) throws Exception{
+    public List<PastCourse> getCourse(String courseAbbr, int number) throws Exception{
         return getCourse(courseAbbr,String.valueOf(number));
     }
 

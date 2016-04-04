@@ -4,7 +4,7 @@ package CoursePicker;
  * Created by Juliang on 1/5/16.
  * A class represents courses
  */
-public class Course {
+public class PastCourse {
     private String instructor, course, section;
     private int A,B,C,D,F,Q;
 
@@ -20,7 +20,7 @@ public class Course {
      * @param F letter grade
      * @param Q letter grade
      */
-    public Course(String courseName, String section, String instructor,int A, int B, int C, int D, int F, int Q){
+    public PastCourse(String courseName, String section, String instructor, int A, int B, int C, int D, int F, int Q){
         this.instructor = instructor;
         this.A = A;
         this.B = B;
@@ -107,10 +107,10 @@ public class Course {
 
     /**
      *
-     * @param other another CoursePicker.Course object
+     * @param other another CoursePicker.PastCourse object
      * @throws Exception if instructor or and course name are not the same
      */
-    public void add(Course other) throws Exception{
+    public void add(PastCourse other) throws Exception{
         if (! this.course.equals(other.course))
             throw new Exception(this.course + " is not the same as " + other.course);
         else if (! this.instructor.equals(other.instructor))

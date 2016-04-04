@@ -1,4 +1,5 @@
-package CoursePicker; /**
+package CoursePicker;
+/**
  * This singleton class is mainly used as an integration of other classes
  * Created by Juliang on 1/5/16.
  */
@@ -150,12 +151,11 @@ public class GradeGetter {
      * @return  a List of courses
      * @throws Exception if inputs are not correctly formatted
      */
-    public List<Course> getCourse(String course, int years,boolean compress) throws Exception{
+    public List<PastCourse> getCourse(String course, int years, boolean compress) throws Exception{
         String courseUpper = course.toUpperCase();
         List<String> urlList = this.makeURL(courseUpper,years);
-        List<Course> courseList = new ArrayList<>();
+        List<PastCourse> pastCourseList = new ArrayList<>();
         List<Thread> threadList = new ArrayList<>();
-        boolean exceptionOccurred = false;
         for (String url: urlList){
             threadList.add(new Thread(() -> {
                     try {
@@ -164,7 +164,7 @@ public class GradeGetter {
 
                         { // get from the cache
                             GradeParser parser = parserMap.get(filename);
-                            courseList.addAll(parser.getCourse(courseUpper));
+                            pastCourseList.addAll(parser.getCourse(courseUpper));
                         }
 
                         else
@@ -172,7 +172,7 @@ public class GradeGetter {
                         {// get from url or local files
                             DataGetter getter = new DataGetter(url);
                             GradeParser parser = new GradeParser(getter.getData());
-                            courseList.addAll(parser.getCourse(courseUpper));
+                            pastCourseList.addAll(parser.getCourse(courseUpper));
                             parserMap.put(filename, parser);
                         }
                     } catch (Exception e) {
@@ -185,9 +185,9 @@ public class GradeGetter {
         for (Thread t: threadList)
             t.join();
         if (compress)
-            return GradeAnalyzer.compress(courseList);
+            return GradeAnalyzer.compress(pastCourseList);
         else
-            return courseList;
+            return pastCourseList;
     }
 
 
