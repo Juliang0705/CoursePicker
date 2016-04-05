@@ -28,24 +28,23 @@ class TimeInterval{
 }
 
 public class FutureCourse {
-    private String instructor, course, section, term,location;
+    private String instructor, course, number, section, term;
     private int credits;
     private List<TimeInterval> time;
 
-    public FutureCourse(String instructor,String courseName, String section,String term, String location,int credits,
+    public FutureCourse(String instructor,String courseName,String number, String section,String term,int credits,
                         List<TimeInterval> time){
         this.instructor = instructor;
         this.course = courseName;
+        this.number = number;
         this.section = section;
         this.term = term;
-        this.location = location;
         this.credits = credits;
         this.time = time;
     }
     @Override
     public String toString(){
-        String output = term + "\n" + course + " " + section + " " +credits +" hours \n" + instructor +
-                        "\n" + location;
+        String output = term + "\n" + course + "-" + number + " "+ section + " " +credits +" hours \n" + instructor;
         for (TimeInterval ti: time)
             output += (ti +"\n");
         return output;

@@ -17,8 +17,11 @@ import org.jsoup.safety.Whitelist;
 public class ScheduleDataGetter {
 
     private String data;
+
     private String year;
+
     private int semester;
+
     private String subject;
 
     static private String convertStreamToString(java.io.InputStream is) {
@@ -84,5 +87,28 @@ public class ScheduleDataGetter {
         document.select("p").prepend("\\n");
         String s = document.html().replaceAll("\\\\n", "\n");
         return Jsoup.clean(s, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false));
+    }
+    public String getSubject() {
+        return subject;
+    }
+
+    public int getSemester() {
+        return semester;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public String getTerm(){
+        String term = "";
+        if (semester == 1){
+            term = "Spring ";
+        }else if (semester == 2){
+            term = "Summer ";
+        }else if (semester == 3){
+            term = "Fall ";
+        }
+        return term + year;
     }
 }
