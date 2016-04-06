@@ -6,7 +6,6 @@ package CoursePicker.ScheduleMaker;
 import java.io.*;
 import java.net.*;
 import java.util.regex.*;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
@@ -88,6 +87,7 @@ public class ScheduleDataGetter {
         String s = document.html().replaceAll("\\\\n", "\n");
         return Jsoup.clean(s, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
+
     public String getSubject() {
         return subject;
     }

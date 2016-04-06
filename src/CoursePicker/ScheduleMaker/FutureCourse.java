@@ -44,7 +44,7 @@ public class FutureCourse {
     }
     @Override
     public String toString(){
-        String output = term + "\n" + course + "-" + number + " "+ section + " " +credits +" hours \n" + instructor;
+        String output = term + "\n" + course + "-" + number + " "+ section + " " +credits +" hours \n" + instructor + "\n";
         for (TimeInterval ti: time)
             output += (ti +"\n");
         return output;
