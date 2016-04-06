@@ -3,11 +3,16 @@ package CoursePicker.ScheduleMaker;
 /**
  * Created by Juliang on 4/4/16.
  */
+import java.sql.Time;
 import java.util.*;
 import java.time.DayOfWeek;
 
+/**
+ * a class that represents the duration of a class such as MWF 11:30 - 12:20
+ */
 class TimeInterval{
     private int startHour,startMinute, endHour,endMinute;
+
     private List<DayOfWeek> days;
     TimeInterval(int sh,int sm,int eh,int em,List<DayOfWeek> days){
         startHour = sh;
@@ -16,6 +21,26 @@ class TimeInterval{
         endMinute = em;
         this.days = days;
     }
+
+    /**
+     * 11:30 -> 11* 60 + 30 = 690
+     * @return integer representation of the start time
+     */
+    public int getStartTime(){
+        return startHour * 60 + startMinute;
+    }
+
+    /**
+     * 12:20 -> 12* 60 + 20 + 740
+     * @return integer representation of the end time
+     */
+    public int getEndTime(){
+        return endHour * 60 + endHour;
+    }
+    public List<DayOfWeek> getDays() {
+        return days;
+    }
+
     @Override
     public String toString(){
         String output = "";
@@ -25,8 +50,25 @@ class TimeInterval{
         output += "\n" + startHour +":"+ startMinute + " - " + endHour +":" + endMinute;
         return output;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (o instanceof TimeInterval){
+            TimeInterval other = (TimeInterval) o;
+            return this.startHour == other.startHour &&
+                    this.startMinute == other.startMinute &&
+                    this.endHour == other.endHour &&
+                    this.endMinute == other.endMinute &&
+                    this.days.equals(other.days);
+        }else{
+            return false;
+        }
+    }
 }
 
+/**
+ * an representation of future courses
+ */
 public class FutureCourse {
     private String instructor, course, number, section, term;
     private int credits;
@@ -42,6 +84,34 @@ public class FutureCourse {
         this.credits = credits;
         this.time = time;
     }
+    public List<TimeInterval> getTime() {
+        return time;
+    }
+
+    public String getInstructor() {
+        return instructor;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public String getTerm() {
+        return term;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
     @Override
     public String toString(){
         String output = term + "\n" + course + "-" + number + " "+ section + " " +credits +" hours \n" + instructor + "\n";

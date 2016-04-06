@@ -13,6 +13,11 @@ public class ScheduleDataParser {
     private ScheduleDataGetter dataGetter;
     private List<FutureCourse> courseList;
 
+    /**
+     *
+     * @param source a string
+     * @return an array of string separately by 9 white spaces
+     */
     private List<String> splitData(String source){
         String[] splitedSource = source.split("\\n{9}");
         LinkedList<String> courseDataList = new LinkedList<>(Arrays.asList(splitedSource));
@@ -21,6 +26,11 @@ public class ScheduleDataParser {
         });
         return courseDataList;
     }
+
+    /**
+     * parse the data associated with dataGetter to a list of FutureCourse Objects
+     * @return a list of FutureCourse Objects
+     */
     private List<FutureCourse> parseCourses(){
 
         /**
@@ -57,7 +67,7 @@ public class ScheduleDataParser {
                 Scanner in = new Scanner(stream);
                 while (in.hasNextLine()){
                     line = in.nextLine();
-                    if (line.contains(this.dataGetter.getSubject())){
+                    if (line.contains(this.dataGetter.getSubject()) && course == null){
                         course = this.dataGetter.getSubject();
                         number = line.substring(line.length()-9,line.length()-6);
                         section = line.substring(line.length()-3,line.length());
@@ -95,7 +105,9 @@ public class ScheduleDataParser {
                         if (dayString.indexOf('F') != -1){
                             days.add(DayOfWeek.FRIDAY);
                         }
-                        time.add(new TimeInterval(startHour,startMinute,endHour,endMinute,days));
+                        TimeInterval newTime = new TimeInterval(startHour,startMinute,endHour,endMinute,days);
+                        if (!time.contains(newTime))
+                            time.add(newTime);
                     }
                 }
                 if (instructor != null && course != null && number != null && section != null && term != null
