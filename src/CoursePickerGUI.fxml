@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CoursePickerGUIController">
+   <top>
+      <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="52.0" text="Year: ">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="yearInputBox" minHeight="-Infinity" minWidth="-Infinity" prefWidth="92.0">
+               <HBox.margin>
+                  <Insets top="14.0" />
+               </HBox.margin>
+            </TextField>
+            <Label prefHeight="52.0" text="Semeste:">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox fx:id="semesterDropDownList" prefHeight="10.0" prefWidth="150.0">
+               <HBox.margin>
+                  <Insets top="14.0" />
+               </HBox.margin>
+            </ChoiceBox>
+            <Label prefHeight="52.0" text="Subject:">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox fx:id="subjectDropDownList" prefWidth="150.0">
+               <HBox.margin>
+                  <Insets top="14.0" />
+               </HBox.margin>
+            </ChoiceBox>
+            <Label prefHeight="52.0" text="Number:">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="courseNumberField" prefHeight="26.0" prefWidth="96.0">
+               <HBox.margin>
+                  <Insets top="14.0" />
+               </HBox.margin>
+            </TextField>
+            <Label />
+            <Button fx:id="fetchDataButton" mnemonicParsing="false" text="Fetch Data">
+               <HBox.margin>
+                  <Insets left="20.0" top="14.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="helpButton" mnemonicParsing="false" text="Help">
+               <HBox.margin>
+                  <Insets left="80.0" top="14.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="infoButton" mnemonicParsing="false" text="Info">
+               <HBox.margin>
+                  <Insets left="10.0" top="14.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <VBox prefHeight="648.0" prefWidth="235.0" BorderPane.alignment="CENTER">
+         <children>
+            <ListView fx:id="courseListView" prefHeight="396.0" prefWidth="223.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </ListView>
+            <TextArea fx:id="courseDetailTextView" editable="false" prefHeight="245.0" prefWidth="253.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TextArea>
+            <Button fx:id="addCourseButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Add Selected Course">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="45.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <VBox prefHeight="748.0" prefWidth="207.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Selected Courses: ">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <ListView fx:id="selectedCourseListView" editable="true" prefHeight="327.0" prefWidth="197.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </ListView>
+            <Button fx:id="deleteCourseButton" mnemonicParsing="false" text="Delete Selected Course">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="25.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Button>
+            <TextArea fx:id="summaryTextView" editable="false" prefHeight="200.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TextArea>
+         </children>
+      </VBox>
+   </right>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="schedulePane" prefHeight="404.0" prefWidth="548.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Pane>
+            <Pane fx:id="graphPane" prefHeight="291.0" prefWidth="520.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Pane>
+            <RadioButton fx:id="pieChartToggleButton" mnemonicParsing="false" text="Pie Chart">
+               <VBox.margin>
+                  <Insets left="430.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="barChartToggleButton" mnemonicParsing="false" text="Bar Chart">
+               <VBox.margin>
+                  <Insets left="430.0" top="5.0" />
+               </VBox.margin>
+            </RadioButton>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
