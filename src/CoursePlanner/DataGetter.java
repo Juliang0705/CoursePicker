@@ -1,4 +1,4 @@
-package CoursePicker;
+package CoursePlanner;
 /**
  * Created by Juliang on 1/4/16.
  * this class get raw pdf data from url and parse it to string

@@ -1,4 +1,4 @@
-package CoursePicker;
+package CoursePlanner;
 /**
  * Created by Juliang on 1/5/16.
  */

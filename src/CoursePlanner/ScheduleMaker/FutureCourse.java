@@ -1,4 +1,4 @@
-package CoursePicker.ScheduleMaker;
+package CoursePlanner.ScheduleMaker;
 
 /**
  * Created by Juliang on 4/4/16.

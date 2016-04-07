@@ -1,4 +1,4 @@
-package CoursePicker;
+package CoursePlanner;
 /**
  * This singleton class is mainly used as an integration of other classes
  * Created by Juliang on 1/5/16.

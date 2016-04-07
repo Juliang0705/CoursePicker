@@ -2,6 +2,8 @@
  * Created by Juliang on 1/6/16.
  */
 
+import CoursePlanner.GradeAnalyzer;
+import CoursePlanner.GradeGetter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.util.*;
-import CoursePicker.*;
+import CoursePlanner.*;
 
 public class Main extends Application {
     private Pane root;
@@ -105,7 +107,7 @@ public class Main extends Application {
         this.inputButton.setOnAction(event -> {
             try {
                 this.courseList = GradeGetter.getInstance().getCourse(this.inputTextField.getText(),
-                                                                    this.yearsDropDownList.getValue(), true);
+                                                                    this.yearsDropDownList.getValue(),true);
                 if (this.courseList.isEmpty())
                     throw new Exception("The course doesn't exist.");
                 GradeAnalyzer.sortByInstructorName(this.courseList);
@@ -255,7 +257,7 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("CoursePicker.PastCourse Picker");
+        primaryStage.setTitle("Course Picker");
         this.root = new Pane();
         this.initUI(root);
         this.initActions();

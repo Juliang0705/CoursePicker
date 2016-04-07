@@ -1,4 +1,4 @@
-package CoursePicker;
+package CoursePlanner;
 /**
  * Created by Juliang on 1/4/16.
  * parse the grade reports from tamu registrar
@@ -109,7 +109,7 @@ public class GradeParser{
         if (this.parse(courseAbbr,number)){
             return this.pastCourseList;
         }else
-            throw new Exception("CoursePicker.GradeParser Error: Something wrong with the source or the course doesn't exist");
+            throw new Exception("GradeParser Error: Something wrong with the source or the course doesn't exist");
     }
 
     /**
