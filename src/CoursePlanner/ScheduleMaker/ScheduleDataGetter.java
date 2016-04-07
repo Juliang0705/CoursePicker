@@ -10,6 +10,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 
+enum Semester{
+    SPRING,SUMMER,FALL
+}
 /**
  * this class fetches raw HTML data associated with a particular department in given year and semester
  */
@@ -35,18 +38,24 @@ public class ScheduleDataGetter {
      * @param subject String 4 capitalized abbreviation of a department such as MATH, CSCE
      * @throws Exception if inputs are not valid.
      */
-    public ScheduleDataGetter(String year, int semester, String subject) throws Exception{
+    public ScheduleDataGetter(String year, Semester semester, String subject) throws Exception{
         //checking if inputs are sort of valid.
         Pattern yearPattern = Pattern.compile("\\d{4}");
         Matcher yearMatcher = yearPattern.matcher(year);
         Pattern subjectPattern = Pattern.compile("[A-Z]{4}");
         Matcher subjectMatcher = subjectPattern.matcher(subject);
-        if (!yearMatcher.matches() ||!subjectMatcher.matches() || (semester != 1 && semester != 2 && semester != 3))
+        if (!yearMatcher.matches() ||!subjectMatcher.matches())
             throw new Exception("Bad input: "+ year + semester + " " + subject);
         String term = year + semester + "1"; // 1 for college station campus
 
         this.year = year;
-        this.semester = semester;
+        if (semester == Semester.SPRING){
+            this.semester = 1;
+        }else if (semester == Semester.SUMMER){
+            this.semester = 2;
+        }else if (semester == Semester.FALL){
+            this.semester = 3;
+        }
         this.subject = subject;
 
         //making post request to the server

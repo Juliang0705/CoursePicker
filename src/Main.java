@@ -27,14 +27,6 @@ public class Main extends Application{
         primaryStage.show();
         CoursePickerGUIController controller = guiLoader.getController();
         controller.init();
-//        scheduleView.appointments().addAll(
-//                new Agenda.AppointmentImplLocal()
-//                        .withStartLocalDateTime(LocalDate.now().atTime(4, 00))
-//                        .withEndLocalDateTime(LocalDate.now().atTime(15, 30))
-//                        .withDescription("It's time")
-//                        .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1")) // you should use a map of AppointmentGroups
-//        );
-
         // show it
     }
     public static void main(String[] args) {

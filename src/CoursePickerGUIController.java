@@ -54,6 +54,14 @@ public class CoursePickerGUIController {
     private void initGUI(){
         scheduleView.setMaxSize(schedulePane.getWidth(),schedulePane.getHeight());
         schedulePane.getChildren().addAll(scheduleView);
+        //        scheduleView.appointments().addAll(
+//                new Agenda.AppointmentImplLocal()
+//                        .withStartLocalDateTime(LocalDate.now().atTime(4, 00))
+//                        .withEndLocalDateTime(LocalDate.now().atTime(15, 30))
+//                        .withDescription("It's time")
+//                        .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1")) // you should use a map of AppointmentGroups
+//        );
+
     }
     private void initAction(){
 

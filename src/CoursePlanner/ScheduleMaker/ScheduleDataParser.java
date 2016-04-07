@@ -121,10 +121,12 @@ public class ScheduleDataParser {
     }
     public ScheduleDataParser(ScheduleDataGetter getter){
         this.dataGetter = getter;
-        this.courseList = parseCourses();
     }
 
     public List<FutureCourse> getCourseList() throws Exception{
+        if (this.courseList == null){
+            this.courseList = parseCourses();
+        }
         if (this.courseList == null || this.courseList.isEmpty())
             throw new Exception("Cannot parse course list correctly\n");
         return courseList;
