@@ -23,7 +23,7 @@ public class SchedulePlanner {
      * i.e. CSCE20163(CSCE 2016 Spring)
      * second key is the course number such as 411, 222
      */
-    private HashMap<String,HashMap<String,List<FutureCourse>>> courseCatalog;
+    private HashMap<String,HashMap<String,List<FutureCourse>>> courseCatalog = new HashMap<>();
     private SchedulePlanner() {
         allSubjects.addAll(Arrays.asList("AERO","MEMA","BMEN","BIOT","CHEN","SENG","CVEN","OCEN","ENGR","CSCE","ECEN",
                 "ENDG","ENTC","IDIS","ISEN","MSEN","MEEN","NUEN","PETE","ACCT","BUAD","BUSN","IBUS","FINC","ISYS","SCMT","MGMT","MKTG",
@@ -53,13 +53,13 @@ public class SchedulePlanner {
         return separatedCourseList;
     }
 
-    public List<FutureCourse> getCourse(String year, Semester semester, String subject,String number) throws Exception{
+    public List<FutureCourse> getCourse(String year, ScheduleDataGetter.Semester semester, String subject,String number) throws Exception{
         String key = subject + year;
-        if (semester == Semester.SPRING){
+        if (semester == ScheduleDataGetter.Semester.SPRING){
             key += 1;
-        }else if (semester == Semester.SUMMER){
+        }else if (semester == ScheduleDataGetter.Semester.SUMMER){
             key += 2;
-        }else if (semester == Semester.FALL){
+        }else if (semester == ScheduleDataGetter.Semester.FALL){
             key += 3;
         }
         // get it from the cache
@@ -71,8 +71,8 @@ public class SchedulePlanner {
         }
         //get it from the server(slower)
         int currentYear = Year.now().getValue();
-        if (Integer.parseInt(year) != currentYear || Integer.parseInt(year) != currentYear+1)
-            throw new Exception("It is pointless to look up past course for scheduling purpose");
+        if (Integer.parseInt(year) != currentYear && Integer.parseInt(year) != currentYear+1)
+            throw new Exception("It is pointless to look up past courses or future years for scheduling purpose");
         if (!allSubjects.contains(subject))
             throw new Exception("Subject "+subject+ " not found");
         ScheduleDataParser parser = new ScheduleDataParser(new ScheduleDataGetter(year,semester,subject));

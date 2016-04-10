@@ -73,7 +73,15 @@ public class FutureCourse {
     private String instructor, course, number, section, term;
     private int credits;
     private List<TimeInterval> time;
-
+    private String getShortenInstructorName(){
+        try{
+            String[] nameSeparatedbySpace = this.instructor.split("\\s+");
+            return (nameSeparatedbySpace[1] + " " + nameSeparatedbySpace[0].charAt(0)).toUpperCase();
+        }catch (Exception e){
+            System.out.println(e);
+            return "";
+        }
+    }
     public FutureCourse(String instructor,String courseName,String number, String section,String term,int credits,
                         List<TimeInterval> time){
         this.instructor = instructor;
@@ -111,12 +119,23 @@ public class FutureCourse {
     public int getCredits() {
         return credits;
     }
-
+    public boolean isHonor(){
+        return getSection().startsWith("2");
+    }
     @Override
     public String toString(){
-        String output = term + "\n" + course + "-" + number + " "+ section + " " +credits +" hours \n" + instructor + "\n";
+        String output = term + "\n" + course + "-" + number + " "+ section + " " +credits +" hours \n";
+        String shortenedName = getShortenInstructorName();
+        if (shortenedName.isEmpty()){
+            output += instructor;
+        }else{
+            output += shortenedName;
+        }
+        output += '\n';
+
         for (TimeInterval ti: time)
             output += (ti +"\n");
         return output;
     }
+
 }

@@ -15,38 +15,36 @@ import javafx.fxml.FXMLLoader;
 import jfxtras.scene.control.agenda.*;
 import java.time.LocalDate;
 
-public class Main extends Application{
-    private Parent root;
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        final FXMLLoader guiLoader = new FXMLLoader(getClass().getResource("CoursePickerGUI.fxml"));
-        this.root = guiLoader.load();
-        primaryStage.setScene(new Scene(root, 1000, 700));
-        primaryStage.setTitle("Course Picker");
-        primaryStage.setResizable(false);
-        primaryStage.show();
-        CoursePickerGUIController controller = guiLoader.getController();
-        controller.init();
-        // show it
-    }
-    public static void main(String[] args) {
-        launch(args);
-    }
-}
-
-
-//public class Main {
+//public class Main extends Application{
+//    private Parent root;
+//    @Override
+//    public void start(Stage primaryStage) throws Exception{
+//        final FXMLLoader guiLoader = new FXMLLoader(getClass().getResource("CoursePickerGUI.fxml"));
+//        this.root = guiLoader.load();
+//        primaryStage.setScene(new Scene(root, 1000, 700));
+//        primaryStage.setTitle("Course Picker");
+//        primaryStage.setResizable(false);
+//        primaryStage.show();
+//        CoursePickerGUIController controller = guiLoader.getController();
+//        controller.init();
+//        // show it
+//    }
 //    public static void main(String[] args) {
-//        try {
-//            ScheduleDataGetter getter = new ScheduleDataGetter("2016",3,"CSCE");
-//            ScheduleDataParser parser = new ScheduleDataParser(getter);
-//            for (FutureCourse s: parser.getCourseList()){
-//                System.out.println("-------------------------------------------------------------");
-//                System.out.println(s);
-//            }
-//        }catch(Exception e){
-//            System.out.println(e);
-//        }
+//        launch(args);
 //    }
 //}
+
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            for (FutureCourse s: SchedulePlanner.getInstance().getCourse("2016",ScheduleDataGetter.Semester.FALL,"CSCE","121")){
+                System.out.println("-------------------------------------------------------------");
+                System.out.println(s);
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+}
 

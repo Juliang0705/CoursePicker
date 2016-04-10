@@ -10,14 +10,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 
-enum Semester{
-    SPRING,SUMMER,FALL
-}
 /**
  * this class fetches raw HTML data associated with a particular department in given year and semester
  */
 public class ScheduleDataGetter {
-
+    public enum Semester{
+        SPRING,SUMMER,FALL
+    }
     private String data;
 
     private String year;
@@ -46,8 +45,6 @@ public class ScheduleDataGetter {
         Matcher subjectMatcher = subjectPattern.matcher(subject);
         if (!yearMatcher.matches() ||!subjectMatcher.matches())
             throw new Exception("Bad input: "+ year + semester + " " + subject);
-        String term = year + semester + "1"; // 1 for college station campus
-
         this.year = year;
         if (semester == Semester.SPRING){
             this.semester = 1;
@@ -57,7 +54,7 @@ public class ScheduleDataGetter {
             this.semester = 3;
         }
         this.subject = subject;
-
+        String term = year + this.semester + "1"; // 1 for college station campus
         //making post request to the server
         //pulling all the data for a single particular course
         OutputStreamWriter writer = null;
