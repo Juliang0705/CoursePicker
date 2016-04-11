@@ -72,7 +72,16 @@ public class ScheduleDataParser {
                         section = line.substring(line.length()-3,line.length());
                         term = this.dataGetter.getTerm();
                     }else if (line.contains("Instructors:")){
-                        instructor = in.next() + " " + in.next();
+                        String fullname[] = in.nextLine().split("\\s+");
+                        if (fullname.length == 2){ //  Hyunyoung Lee
+                            instructor = fullname[0] + " " + fullname[1];
+                        }else if (fullname.length == 3 && !fullname[2].contains("(P)")){ // Hyunyoung j Lee(she doesn't actually have middle name)
+                            instructor = fullname[0] + " " + fullname[2];
+                        }else if (fullname.length == 3 && fullname[2].contains("(P)")){ // Hyunyoung Lee (P)
+                            instructor = fullname[0] + " " + fullname[1];
+                        }else if (fullname.length == 4){ //Hyunyoung j Lee (P)
+                            instructor = fullname[0] + " " + fullname[2];
+                        }
                     }else if (line.contains("Credit")){
                         credits = Integer.parseInt(line.substring(line.indexOf("Credits")-6,line.indexOf("Credits")-5));
                     }else if (line.contains(" am") || line.contains(" pm")){
