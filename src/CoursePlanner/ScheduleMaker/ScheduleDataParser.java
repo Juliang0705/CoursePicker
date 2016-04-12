@@ -61,7 +61,7 @@ public class ScheduleDataParser {
                 String section = null;
                 String term = null;
                 int credits = -1;
-                List<TimeInterval> time = new ArrayList<>();
+                List<FutureCourse.TimeInterval> time = new ArrayList<>();
                 InputStream stream = new ByteArrayInputStream(data.getBytes(Charset.forName("UTF-8")));
                 Scanner in = new Scanner(stream);
                 while (in.hasNextLine()){
@@ -113,7 +113,7 @@ public class ScheduleDataParser {
                         if (dayString.indexOf('F') != -1){
                             days.add(DayOfWeek.FRIDAY);
                         }
-                        TimeInterval newTime = new TimeInterval(startHour,startMinute,endHour,endMinute,days);
+                        FutureCourse.TimeInterval newTime = new FutureCourse.TimeInterval(startHour,startMinute,endHour,endMinute,days);
                         if (!time.contains(newTime))
                             time.add(newTime);
                     }

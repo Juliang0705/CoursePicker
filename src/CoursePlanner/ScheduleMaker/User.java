@@ -4,7 +4,6 @@ package CoursePlanner.ScheduleMaker;
  * Created by Juliang on 4/10/16.
  */
 import java.util.*;
-import java.util.concurrent.Future;
 
 public class User {
     private static User ourInstance = new User();
@@ -27,9 +26,13 @@ public class User {
     }
     public void addCourse(FutureCourse c) throws Exception{
         for (FutureCourse course: selectedCourses){
+            if (!course.getTerm().equals(c.getTerm()))
+                throw new Exception("Courses contain different terms.");
+            if ((course.getCourse()+course.getNumber()).equals(c.getCourse()+c.getNumber()))
+                throw new Exception("Duplicate Course " + course.getCourse() +"-"+ course.getNumber());
             if (course.hasTimeConflict(c))
-                throw new Exception("Current Selected Course " + c.getCourse() + c.getNumber() +" has time conflict with "+
-                course.getCourse() + course.getNumber());
+                throw new Exception("Current Selected Course " + c.toString() +" has time conflict with "+
+                course.toString());
         }
         selectedCourses.add(c);
     }
@@ -46,10 +49,24 @@ public class User {
                     totalUnweightedGPA += course.getPastCourse().getAverage() * course.getCredits();
                 }
             }
-            return totalUnweightedGPA / totalHours;
+            if (totalHours == 0)
+                return 0;
+            else
+                return totalUnweightedGPA / totalHours;
         }catch(Exception e){
-            System.out.println(e);
             return 0;
         }
+    }
+    public int getTotalCreditHours(){
+        int totalHours = 0;
+        for (FutureCourse course: selectedCourses){
+            totalHours += course.getCredits();
+        }
+        return totalHours;
+    }
+    @Override
+    public String toString(){
+        return "Total Credits: \n" + getTotalCreditHours() + "\n" +
+                "Expected Semester GPA: \n" + getExpectedAverageGPA() +"\n";
     }
 }

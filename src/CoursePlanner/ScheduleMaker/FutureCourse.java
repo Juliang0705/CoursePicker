@@ -6,87 +6,94 @@ package CoursePlanner.ScheduleMaker;
 import CoursePlanner.GradeGetter;
 import CoursePlanner.PastCourse;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.util.*;
 import java.time.DayOfWeek;
 
-/**
- * a class that represents the duration of a class such as MWF 11:30 - 12:20
- */
-class TimeInterval{
-    private int startHour,startMinute, endHour,endMinute;
 
-    private List<DayOfWeek> days;
-    TimeInterval(int sh,int sm,int eh,int em,List<DayOfWeek> days){
-        startHour = sh;
-        startMinute = sm;
-        endHour = eh;
-        endMinute = em;
-        this.days = days;
-    }
-
-    public int getStartHour() {
-        return startHour;
-    }
-
-    public int getStartMinute() {
-        return startMinute;
-    }
-
-    public int getEndHour() {
-        return endHour;
-    }
-
-    public int getEndMinute() {
-        return endMinute;
-    }
-    public int getTotalStartTimeInMinute(){
-        return startHour * 60 + startMinute;
-    }
-    public int getTotalEndTimeInMinute(){
-        return endHour * 60 + endMinute;
-    }
-    public List<DayOfWeek> getDays() {
-        return days;
-    }
-
-    public boolean hasTimeConflict(TimeInterval other){
-        for (DayOfWeek day: this.days)
-            for (DayOfWeek otherDay: other.days){
-                if (this.getTotalStartTimeInMinute() <= other.getTotalStartTimeInMinute() &&
-                        this.getTotalEndTimeInMinute() >= other.getTotalStartTimeInMinute())
-                    return true;
-            }
-        return false;
-    }
-    @Override
-    public String toString(){
-        String output = "";
-        for (DayOfWeek d : days){
-            output += (d + " ");
-        }
-        output += "\n" + startHour +":"+ startMinute + " - " + endHour +":" + endMinute;
-        return output;
-    }
-
-    @Override
-    public boolean equals(Object o){
-        if (o instanceof TimeInterval){
-            TimeInterval other = (TimeInterval) o;
-            return this.startHour == other.startHour &&
-                    this.startMinute == other.startMinute &&
-                    this.endHour == other.endHour &&
-                    this.endMinute == other.endMinute &&
-                    this.days.equals(other.days);
-        }else{
-            return false;
-        }
-    }
-}
 
 /**
  * an representation of future courses
  */
 public class FutureCourse {
+
+    /**
+     * a class that represents the duration of a class such as MWF 11:30 - 12:20
+     */
+    static public class TimeInterval{
+        private int startHour,startMinute, endHour,endMinute;
+
+        private List<DayOfWeek> days;
+        TimeInterval(int sh,int sm,int eh,int em,List<DayOfWeek> days){
+            startHour = sh;
+            startMinute = sm;
+            endHour = eh;
+            endMinute = em;
+            this.days = days;
+        }
+
+        public int getStartHour() {
+            return startHour;
+        }
+
+        public int getStartMinute() {
+            return startMinute;
+        }
+
+        public int getEndHour() {
+            return endHour;
+        }
+
+        public int getEndMinute() {
+            return endMinute;
+        }
+        public int getTotalStartTimeInMinute(){
+            return startHour * 60 + startMinute;
+        }
+        public int getTotalEndTimeInMinute(){
+            return endHour * 60 + endMinute;
+        }
+        public List<DayOfWeek> getDays() {
+            return days;
+        }
+        public boolean hasTimeConflict(TimeInterval other){
+            for (DayOfWeek day: this.days)
+                for (DayOfWeek otherDay: other.days){
+                    if (this.getTotalStartTimeInMinute() <= other.getTotalStartTimeInMinute() &&
+                            this.getTotalEndTimeInMinute() >= other.getTotalStartTimeInMinute())
+                        return true;
+                }
+            return false;
+        }
+        @Override
+        public String toString(){
+            String output = "";
+            for (DayOfWeek d : days){
+                output += (d + " ");
+            }
+            output += "\n" + startHour +":"+ startMinute + " - " + endHour +":" + endMinute;
+            return output;
+        }
+
+        @Override
+        public boolean equals(Object o){
+            if (o instanceof TimeInterval){
+                TimeInterval other = (TimeInterval) o;
+                return this.startHour == other.startHour &&
+                        this.startMinute == other.startMinute &&
+                        this.endHour == other.endHour &&
+                        this.endMinute == other.endMinute &&
+                        this.days.equals(other.days);
+            }else{
+                return false;
+            }
+        }
+    }
+
+
+
     private String instructor, course, number, section, term;
     private int credits;
     private List<TimeInterval> time;
@@ -185,21 +192,22 @@ public class FutureCourse {
             }
         return false;
     }
+
     @Override
     public String toString(){
-        String output = term + "\n" + course + "-" + number + " "+ section + " " +credits +" hours \n";
-        String shortenedName = getShortenInstructorName();
-        if (shortenedName.isEmpty()){
-            output += instructor;
-        }else{
-            output += shortenedName;
-        }
-        output += '\n';
-
+        return course + "-" + number + " " + section;
+    }
+    public String getDetail(){
+        String output = term + "\n\n" + course + "-" + number + " "+ section + " " +credits +" hours \n\n";
+        output += "Instructor: \n"+getInstructor();
+        output += "\n\nTime:\n\n";
         for (TimeInterval ti: time)
             output += (ti +"\n");
+        output += "\nHistorical grade data:\n\n";
         if (hasPastCourse()){
             output += this.pastCourse + "\n";
+        }else{
+            output += "Unavailable:(\n";
         }
         return output;
     }

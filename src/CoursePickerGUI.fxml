@@ -8,7 +8,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CoursePickerGUIController">
    <top>
       <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -58,6 +57,9 @@
                <HBox.margin>
                   <Insets left="20.0" top="14.0" />
                </HBox.margin>
+               <effect>
+                  <DropShadow color="#500000" />
+               </effect>
             </Button>
             <Button fx:id="helpButton" mnemonicParsing="false" text="Help">
                <HBox.margin>
@@ -75,12 +77,22 @@
    <left>
       <VBox prefHeight="648.0" prefWidth="235.0" BorderPane.alignment="CENTER">
          <children>
+            <Label text="Available Courses:">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
             <ListView fx:id="courseListView" prefHeight="396.0" prefWidth="223.0">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </ListView>
-            <TextArea fx:id="courseDetailTextView" editable="false" prefHeight="245.0" prefWidth="253.0">
+            <Label text="Selected Course Summary:">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <TextArea fx:id="courseDetailTextView" editable="false" prefHeight="245.0" prefWidth="253.0" wrapText="true">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -111,7 +123,12 @@
                   <Insets bottom="5.0" left="25.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Button>
-            <TextArea fx:id="summaryTextView" editable="false" prefHeight="200.0" prefWidth="200.0">
+            <Label text="User Summary:">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <TextArea fx:id="summaryTextView" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>

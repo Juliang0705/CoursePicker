@@ -10,26 +10,39 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.stage.*;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import jfxtras.scene.control.agenda.*;
+import org.controlsfx.dialog.Dialogs;
 
+import java.awt.*;
+import java.net.URI;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
+
+import javafx.scene.control.ProgressIndicator;
+import org.controlsfx.dialog.ExceptionDialog;
 
 public class CoursePickerGUIController {
     //elements from fxml
@@ -69,6 +82,11 @@ public class CoursePickerGUIController {
     @FXML
     private TextArea summaryTextView;
     private Agenda scheduleView = new Agenda();
+    private Stage rootStage;
+    private Stage loadingStage;
+    private ProgressIndicator indicator;
+    private Stage infoStage;
+    private Task<List<FutureCourse>> dataFetchingTask;
 
     private void initGUI(){
         //initialize the scheduleView
@@ -90,6 +108,8 @@ public class CoursePickerGUIController {
         pieChartToggleButton.setToggleGroup(this.chartToggle);
         barChartToggleButton.setToggleGroup(this.chartToggle);
 
+        this.loadingStage = getLoadingStage();
+        this.infoStage = getInfoStage();
 
     }
     private void initAction(){
@@ -98,20 +118,51 @@ public class CoursePickerGUIController {
             @Override
             public void handle(ActionEvent event) {
                 try{
-                    List<FutureCourse> fetchedCourses = SchedulePlanner.getInstance().getCourse(yearInputBox.getText(),
-                                                                                                semesterDropDownList.getValue(),
-                                                                                                subjectDropDownList.getValue(),
-                                                                                                courseNumberField.getText()
-                                                                                                );
-                    courseListView.getItems().clear();
-                    courseListView.getItems().addAll(fetchedCourses);
+                    dataFetchingTask = new Task<List<FutureCourse>>() {
+                        {
+                            setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                                @Override
+                                public void handle(WorkerStateEvent event) {
+                                    courseListView.getItems().clear();
+                                    courseListView.getItems().addAll(getValue());
+                                    loadingStage.close();
+                                }
+                            });
+                            setOnFailed(new EventHandler<WorkerStateEvent>() {
+                                @Override
+                                public void handle(WorkerStateEvent event) {
+                                    loadingStage.close();
+                                }
+                            });
+                        }
+                        @Override
+                        protected List<FutureCourse> call() throws Exception {
+                                List<FutureCourse> fetchedCourses = SchedulePlanner.getInstance().getCourse(yearInputBox.getText(),
+                                        semesterDropDownList.getValue(),
+                                        subjectDropDownList.getValue(),
+                                        courseNumberField.getText()
+                                );
+                            return fetchedCourses;
+                        }
+                    };
+                    dataFetchingTask.exceptionProperty().addListener(new ChangeListener<Throwable>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Throwable> observable, Throwable oldValue, Throwable newValue) {
+                            if (newValue != null) {
+                                showAlert(newValue);
+                            }
+                        }
+                    });
+                    new Thread(dataFetchingTask).start();
+                    loadingStage.showAndWait();
                 }catch(Exception e){
-                    System.out.println(e);
+                    loadingStage.close();
+                    showAlert(e);
                 }
             }
         });
         //on select -> present course summary and grade chart if there is one
-        courseListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<FutureCourse>() {
+        ChangeListener<FutureCourse> courseViewChangeListener = new ChangeListener<FutureCourse>() {
             @Override
             public void changed(ObservableValue<? extends FutureCourse> observable, FutureCourse oldValue, FutureCourse newValue) {
                 if (newValue == null)
@@ -125,10 +176,12 @@ public class CoursePickerGUIController {
                         graphPane.getChildren().clear();
                     }
                 }catch (Exception e){
-                    System.out.println(e);
+                    showAlert(e);
                 }
             }
-        });
+        };
+        courseListView.getSelectionModel().selectedItemProperty().addListener(courseViewChangeListener);
+        selectedCourseListView.getSelectionModel().selectedItemProperty().addListener(courseViewChangeListener);
 
         // on select -> change the chart
         chartToggle.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
@@ -149,7 +202,7 @@ public class CoursePickerGUIController {
                         }
                     }
                 }catch (Exception e){
-                    System.out.println(e);
+                    showAlert(e);
                 }
             }
         });
@@ -185,7 +238,7 @@ public class CoursePickerGUIController {
                     }
                     summaryTextView.setText(User.currentUser().toString());
                 }catch(Exception e){
-                    System.out.println(e);
+                    showAlert(e);
                 }
             }
         });
@@ -206,10 +259,29 @@ public class CoursePickerGUIController {
                 summaryTextView.setText(User.currentUser().toString());
             }
         });
+
+        infoButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                infoStage.showAndWait();
+            }
+        });
+
+        helpButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://github.com/Juliang0705/CoursePicker"));
+                }catch(Exception e){
+                    showAlert(e);
+                }
+            }
+        });
     }
     private HashMap<String,Agenda.AppointmentGroupImpl> appointmentGroupMap = new HashMap<>();
     private HashMap<Agenda.AppointmentGroupImpl,List<Agenda.AppointmentImplLocal>> appointmentMap = new HashMap<>();
-    public void init(){
+    public void init(Stage s){
+        this.rootStage = s;
         initGUI();
         initAction();
     }
@@ -275,5 +347,44 @@ public class CoursePickerGUIController {
         //add all
         bc.getData().addAll(seriesA,seriesB,seriesC,seriesD,seriesF,seriesQ);
         this.graphPane.getChildren().add(bc);
+    }
+    private void showAlert(Throwable e){
+        System.out.println("In main thread: "+ e.getMessage());
+        Dialogs.create()
+                .owner(this.rootStage)
+                .title("Error:(")
+                .masthead("Something is wrong")
+                .message(e.getMessage())
+                .showError();
+    }
+    private Stage getLoadingStage(){
+        Stage loadingStage = new Stage();
+        loadingStage.initOwner(this.rootStage);
+        loadingStage.initModality(Modality.WINDOW_MODAL);
+        loadingStage.setResizable(false);
+        loadingStage.setTitle("Fetching Data...");
+        this.indicator = new ProgressIndicator();
+        this.indicator.setPrefSize(100,100);
+        loadingStage.setScene(new Scene(new StackPane(this.indicator),200,160));
+        this.indicator.setVisible(true);
+        this.indicator.setProgress(-1);
+        loadingStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                dataFetchingTask.cancel();
+            }
+        });
+        return loadingStage;
+    }
+    private Stage getInfoStage(){
+        Stage infoStage = new Stage();
+        infoStage.initOwner(this.rootStage);
+        infoStage.initModality(Modality.WINDOW_MODAL);
+        infoStage.setResizable(false);
+        infoStage.setTitle("About");
+        String heart = "Made by Juliang\'18 with love";
+        Label aboutAuthor = new Label(heart);
+        infoStage.setScene(new Scene(new StackPane(aboutAuthor),200,100));
+        return infoStage;
     }
 }

@@ -52,6 +52,10 @@ public class SchedulePlanner {
         }
         return separatedCourseList;
     }
+    public List<String> getAllSubjects(){
+        Collections.sort(this.allSubjects);
+        return this.allSubjects;
+    }
 
     public List<FutureCourse> getCourse(String year, ScheduleDataGetter.Semester semester, String subject,String number) throws Exception{
         String key = subject + year;
