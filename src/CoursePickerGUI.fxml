@@ -22,7 +22,7 @@
                   <Insets top="14.0" />
                </HBox.margin>
             </TextField>
-            <Label prefHeight="52.0" text="Semeste:">
+            <Label prefHeight="52.0" text="Semester:">
                <HBox.margin>
                   <Insets left="5.0" />
                </HBox.margin>
