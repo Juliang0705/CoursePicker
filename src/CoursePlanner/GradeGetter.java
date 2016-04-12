@@ -9,6 +9,7 @@ public class GradeGetter {
     private static GradeGetter ourInstance = new GradeGetter();
     private HashMap<String,String> courseMap;
     private HashMap<String,GradeParser> parserMap;
+    private HashMap<String,PastCourse> instructorMap = new HashMap<>();
     public static GradeGetter getInstance() {
         return ourInstance;
     }
@@ -188,6 +189,42 @@ public class GradeGetter {
             return GradeAnalyzer.compress(pastCourseList);
         else
             return pastCourseList;
+    }
+
+    /**
+     * search pastCourse by instructor's name and current teaching course
+     * @param instructorName the shortened version such as Durden T
+     * @param courseName    such as "CSCE"
+     * @param courseNumber  such as 221
+     * @param section   such as 501
+     * @return PastCourse if it can be found or null
+     */
+    public PastCourse getCourseByInstructor(String instructorName, String courseName,int courseNumber,int section){
+        try{
+            String key = instructorName;
+            if (String.valueOf(section).startsWith("2")){
+                key += "(Honor)";
+            }
+            key += courseName;
+            key += courseNumber;
+            if (this.instructorMap.containsKey(key)){
+                return this.instructorMap.get(key);
+            }else{
+                for (PastCourse course: this.getCourse(courseName+courseNumber,5,true)){
+                    String newKey = course.getInstructor().substring(1)+courseName+courseNumber;
+                    if (!this.instructorMap.containsKey(newKey))
+                        this.instructorMap.put(newKey,course);
+                }
+                if (this.instructorMap.containsKey(key)) {
+                    return this.instructorMap.get(key);
+                }else
+                    return null;
+            }
+        }catch(Exception e){
+            System.out.println(e);
+            //not found
+            return null;
+        }
     }
 
 
