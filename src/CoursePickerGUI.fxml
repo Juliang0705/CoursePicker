@@ -12,9 +12,9 @@
    <top>
       <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="52.0" text="Year: ">
+            <Label prefHeight="52.0" prefWidth="55.0" text="Year: ">
                <HBox.margin>
-                  <Insets left="20.0" />
+                  <Insets left="15.0" />
                </HBox.margin>
             </Label>
             <TextField fx:id="yearInputBox" minHeight="-Infinity" minWidth="-Infinity" prefWidth="92.0">
@@ -22,9 +22,9 @@
                   <Insets top="14.0" />
                </HBox.margin>
             </TextField>
-            <Label prefHeight="52.0" text="Semester:">
+            <Label prefHeight="52.0" prefWidth="86.0" text="Semester:">
                <HBox.margin>
-                  <Insets left="5.0" />
+                  <Insets left="5.0" right="10.0" />
                </HBox.margin>
             </Label>
             <ChoiceBox fx:id="semesterDropDownList" prefHeight="10.0" prefWidth="150.0">
@@ -32,9 +32,9 @@
                   <Insets top="14.0" />
                </HBox.margin>
             </ChoiceBox>
-            <Label prefHeight="52.0" text="Subject:">
+            <Label prefHeight="52.0" prefWidth="65.0" text="Subject:">
                <HBox.margin>
-                  <Insets left="5.0" />
+                  <Insets left="5.0" right="10.0" />
                </HBox.margin>
             </Label>
             <ChoiceBox fx:id="subjectDropDownList" prefWidth="150.0">
@@ -42,9 +42,9 @@
                   <Insets top="14.0" />
                </HBox.margin>
             </ChoiceBox>
-            <Label prefHeight="52.0" text="Number:">
+            <Label prefHeight="52.0" prefWidth="73.0" text="Number:">
                <HBox.margin>
-                  <Insets left="5.0" />
+                  <Insets left="5.0" right="10.0" />
                </HBox.margin>
             </Label>
             <TextField fx:id="courseNumberField" prefHeight="26.0" prefWidth="96.0">
@@ -53,7 +53,7 @@
                </HBox.margin>
             </TextField>
             <Label />
-            <Button fx:id="fetchDataButton" mnemonicParsing="false" text="Fetch Data">
+            <Button fx:id="fetchDataButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="115.0" text="Fetch Data">
                <HBox.margin>
                   <Insets left="20.0" top="14.0" />
                </HBox.margin>
@@ -61,14 +61,14 @@
                   <DropShadow color="#500000" />
                </effect>
             </Button>
-            <Button fx:id="helpButton" mnemonicParsing="false" text="Help">
+            <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" text="Help">
                <HBox.margin>
-                  <Insets left="80.0" top="14.0" />
+                  <Insets left="20.0" top="14.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="infoButton" mnemonicParsing="false" text="Info">
+            <Button fx:id="infoButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="57.0" text="Info">
                <HBox.margin>
-                  <Insets left="10.0" top="14.0" />
+                  <Insets left="10.0" right="10.0" top="14.0" />
                </HBox.margin>
             </Button>
          </children>

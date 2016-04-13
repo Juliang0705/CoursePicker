@@ -62,7 +62,7 @@ public class FutureCourse {
             for (DayOfWeek day: this.days)
                 for (DayOfWeek otherDay: other.days){
                     if (this.getTotalStartTimeInMinute() <= other.getTotalStartTimeInMinute() &&
-                            this.getTotalEndTimeInMinute() >= other.getTotalStartTimeInMinute())
+                            this.getTotalEndTimeInMinute() >= other.getTotalStartTimeInMinute() && day == otherDay)
                         return true;
                 }
             return false;
