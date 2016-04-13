@@ -116,6 +116,7 @@ public class FutureCourse {
         this.term = term;
         this.credits = credits;
         this.time = time;
+        hasPastCourse();
     }
     public List<TimeInterval> getTime() {
         return time;
