@@ -67,6 +67,8 @@ public class ScheduleDataParser {
                 while (in.hasNextLine()){
                     line = in.nextLine();
                     if (line.contains(this.dataGetter.getSubject()) && course == null){
+                        if (line.contains(" (Syllabus)"))
+                            line = line.substring(0,line.indexOf(" (Syllabus)"));
                         course = this.dataGetter.getSubject();
                         number = line.substring(line.length()-9,line.length()-6);
                         section = line.substring(line.length()-3,line.length());

@@ -350,12 +350,15 @@ public class CoursePickerGUIController {
     }
     private void showAlert(Throwable e){
         System.out.println("In main thread: "+ e.getMessage());
-        Dialogs.create()
-                .owner(this.rootStage)
-                .title("Error:(")
-                .masthead("Something is wrong")
-                .message(e.getMessage())
-                .showError();
+        Stage errorStage = new Stage();
+        errorStage.initOwner(this.rootStage);
+        errorStage.initModality(Modality.WINDOW_MODAL);
+        errorStage.setResizable(false);
+        errorStage.setTitle("Error:(");
+        String errorStr = e.getMessage();
+        Label errorLabel = new Label(errorStr);
+        errorStage.setScene(new Scene(new StackPane(errorLabel),300,100));
+        errorStage.showAndWait();
     }
     private Stage getLoadingStage(){
         Stage loadingStage = new Stage();
