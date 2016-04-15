@@ -66,7 +66,9 @@ public class ScheduleDataParser {
                 Scanner in = new Scanner(stream);
                 while (in.hasNextLine()){
                     line = in.nextLine();
-                    if (line.contains(this.dataGetter.getSubject()) && course == null){
+                    if (line.isEmpty()){
+                        continue;
+                    }else if (line.contains(this.dataGetter.getSubject()) && course == null){
                         if (line.contains(" (Syllabus)"))
                             line = line.substring(0,line.indexOf(" (Syllabus)"));
                         course = this.dataGetter.getSubject();
@@ -84,7 +86,7 @@ public class ScheduleDataParser {
                         }else if (fullname.length == 4){ //Hyunyoung j Lee (P)
                             instructor = fullname[0] + " " + fullname[2];
                         }
-                    }else if (line.contains("Credit")){
+                    }else if (line.contains("Credits")){
                         credits = Integer.parseInt(line.substring(line.indexOf("Credits")-6,line.indexOf("Credits")-5));
                     }else if (line.contains(" am") || line.contains(" pm")){
                         String[] interval = line.split(" - ");
@@ -126,6 +128,7 @@ public class ScheduleDataParser {
             }
         }catch(Exception e){
             System.out.println(e);
+            System.out.println(futureCourseList.size());
             return null;
         }
         return futureCourseList;
