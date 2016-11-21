@@ -7,4 +7,5 @@ Features includes:
 * Check time conflict
 * Course summary
 * Semester GPA prediction
-* Executable can be directly downloaded [ here](https://github.com/Juliang0705/CoursePicker/releases/download/2.0/CoursePicker2.0.jar)
+
+## **Executable can be directly downloaded [here](https://github.com/Juliang0705/CoursePicker/releases/download/1.0/CoursePicker.jar)**
