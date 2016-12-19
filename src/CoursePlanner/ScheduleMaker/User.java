@@ -2,6 +2,7 @@ package CoursePlanner.ScheduleMaker;
 
 /**
  * Created by Juliang on 4/10/16.
+ * Updated to bring to working condition by Jeffrey Cordero 12/16/2016
  */
 import java.util.*;
 
@@ -26,10 +27,10 @@ public class User {
     }
     public void addCourse(FutureCourse c) throws Exception{
         for (FutureCourse course: selectedCourses){
-            if (!course.getTerm().equals(c.getTerm()))
-                throw new Exception("Courses contain different terms.");
             if ((course.getCourse()+course.getNumber()).equals(c.getCourse()+c.getNumber()))
                 throw new Exception("Duplicate Course " + course.getCourse() +"-"+ course.getNumber());
+            if (!course.getTerm().equals(c.getTerm()))
+                throw new Exception("Selected courses occur in different terms.");
             if (course.hasTimeConflict(c))
                 throw new Exception("Current Selected Course " + c.toString() +" has time conflict with "+
                 course.toString());
