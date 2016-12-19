@@ -1,13 +1,17 @@
 package CoursePlanner.ScheduleMaker;
+/**
+ * Created by Juliang on 4/4/16.
+ * Updated to bring to working condition by Jeffrey Cordero 12/16/2016
+ */
 
 import java.nio.charset.Charset;
 import java.time.DayOfWeek;
 import java.util.*;
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/**
- * Created by Juliang on 4/4/16.
- */
+
 public class ScheduleDataParser {
     private ScheduleDataGetter dataGetter;
     private List<FutureCourse> courseList;
@@ -72,9 +76,15 @@ public class ScheduleDataParser {
                         if (line.contains(" (Syllabus)"))
                             line = line.substring(0,line.indexOf(" (Syllabus)"));
                         course = this.dataGetter.getSubject();
-                        number = line.substring(line.length()-9,line.length()-6);
-                        section = line.substring(line.length()-3,line.length());
                         term = this.dataGetter.getTerm();
+						
+						String patternStr = course + "+ +([0-9]{3})+ - +([0-9]{3})";  //Matches the course with the following number and section
+                        Pattern pattern = Pattern.compile(patternStr);
+                        Matcher matcher = pattern.matcher(line);
+                        if(matcher.find()){
+                            number = matcher.group(1);
+                            section = matcher.group(2);
+                        }
                     }else if (line.contains("Instructors:")){
                         String fullname[] = in.nextLine().split("\\s+");
                         if (fullname.length == 2){ //  Hyunyoung Lee
