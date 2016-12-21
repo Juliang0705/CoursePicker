@@ -1,6 +1,8 @@
 /**
  * Created by Juliang on 4/7/16.
+ * Updated to add new functions by Jeffrey Cordero 12/21/2016
  */
+import CoursePlanner.DataFileIO;
 import CoursePlanner.PastCourse;
 import CoursePlanner.ScheduleMaker.FutureCourse;
 import CoursePlanner.ScheduleMaker.ScheduleDataGetter;
@@ -25,13 +27,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import jfxtras.scene.control.agenda.*;
-import org.controlsfx.dialog.Dialogs;
 
-import java.awt.*;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -39,10 +43,10 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ThreadFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.scene.control.ProgressIndicator;
-import org.controlsfx.dialog.ExceptionDialog;
 
 public class CoursePickerGUIController {
     //elements from fxml
@@ -60,6 +64,10 @@ public class CoursePickerGUIController {
     private Button helpButton;
     @FXML
     private Button infoButton;
+	@FXML
+    private Button saveButton;
+    @FXML
+    private Button loadButton;
     @FXML
     private ListView<FutureCourse> courseListView;
     @FXML
@@ -87,6 +95,7 @@ public class CoursePickerGUIController {
     private ProgressIndicator indicator;
     private Stage infoStage;
     private Task<List<FutureCourse>> dataFetchingTask;
+	private Desktop desktop = Desktop.getDesktop();
 
     private void initGUI(){
         //initialize the scheduleView
@@ -274,6 +283,41 @@ public class CoursePickerGUIController {
                     Desktop.getDesktop().browse(new URI("https://github.com/Juliang0705/CoursePicker"));
                 }catch(Exception e){
                     showAlert(e);
+                }
+            }
+        });
+		
+		saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save Course Selections");
+                fileChooser.setInitialFileName("filename.txt");
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT file(*.txt)" ," *.txt");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showSaveDialog(rootStage);
+                if(file != null) {
+                    try{
+                        DataFileIO fileIO = new DataFileIO(file);
+                        fileIO.saveFile();
+                    }catch (IOException ex){ showAlert(ex); }
+                }
+            }
+        });
+
+        loadButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Load Course Selections");
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT file(*.txt)" ," *.txt");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showOpenDialog(rootStage);
+                if(file != null) {
+                    try{
+                        DataFileIO fileIO = new DataFileIO(file);
+                        fileIO.openFile();
+                    }catch (IOException ex){ showAlert(ex); }
                 }
             }
         });
