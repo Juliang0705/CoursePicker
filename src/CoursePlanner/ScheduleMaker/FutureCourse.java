@@ -2,10 +2,12 @@ package CoursePlanner.ScheduleMaker;
 
 /**
  * Created by Juliang on 4/4/16.
+ * Updated for added features by Jeffrey Cordero 12/16/2016
  */
 import CoursePlanner.GradeGetter;
 import CoursePlanner.PastCourse;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
@@ -15,7 +17,7 @@ import java.time.DayOfWeek;
 
 
 /**
- * an representation of future courses
+ * A representation of future courses
  */
 public class FutureCourse {
 
@@ -26,7 +28,7 @@ public class FutureCourse {
         private int startHour,startMinute, endHour,endMinute;
 
         private List<DayOfWeek> days;
-        TimeInterval(int sh,int sm,int eh,int em,List<DayOfWeek> days){
+        public TimeInterval(int sh,int sm,int eh,int em,List<DayOfWeek> days){
             startHour = sh;
             startMinute = sm;
             endHour = eh;
@@ -49,6 +51,7 @@ public class FutureCourse {
         public int getEndMinute() {
             return endMinute;
         }
+
         public int getTotalStartTimeInMinute(){
             return startHour * 60 + startMinute;
         }
@@ -58,14 +61,41 @@ public class FutureCourse {
         public List<DayOfWeek> getDays() {
             return days;
         }
+
+        /**
+         * Compares the time intervals of two courses
+         * @param other TimeInterval - Other course to compare with
+         * @return bool - If time conflict occurs
+         */
         public boolean hasTimeConflict(TimeInterval other){
             for (DayOfWeek day: this.days)
                 for (DayOfWeek otherDay: other.days){
                     if (this.getTotalStartTimeInMinute() <= other.getTotalStartTimeInMinute() &&
-                            this.getTotalEndTimeInMinute() >= other.getTotalStartTimeInMinute())
+                            this.getTotalEndTimeInMinute() >= other.getTotalStartTimeInMinute() && day == otherDay)
                         return true;
                 }
             return false;
+        }
+
+        public void createTimeInterval(int sh,int sm,int eh,int em,List<DayOfWeek> days){
+            startHour = sh;
+            startMinute = sm;
+            endHour = eh;
+            endMinute = em;
+            this.days = days;
+        }
+
+        /**
+         * Like toString, though without formatting for file saving
+         * @return String
+         */
+        public String saveString(){
+            String output = "";
+            for (DayOfWeek d : days){
+                output += (d + " ");
+            }
+            output += startHour +" "+ startMinute + " " + endHour +" " + endMinute;
+            return output;
         }
         @Override
         public String toString(){
@@ -116,9 +146,17 @@ public class FutureCourse {
         this.term = term;
         this.credits = credits;
         this.time = time;
+        hasPastCourse();
     }
     public List<TimeInterval> getTime() {
         return time;
+    }
+    public String getSaveTime() {
+        String output = "";
+        for(TimeInterval t : time)
+             output += t.saveString() + "\n";
+
+        return output;
     }
 
     public String getInstructor() {

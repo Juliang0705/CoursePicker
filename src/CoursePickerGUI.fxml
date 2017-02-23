@@ -24,7 +24,7 @@
             </TextField>
             <Label prefHeight="52.0" prefWidth="86.0" text="Semester:">
                <HBox.margin>
-                  <Insets left="5.0" right="10.0" />
+                  <Insets left="15.0" right="5.0" />
                </HBox.margin>
             </Label>
             <ChoiceBox fx:id="semesterDropDownList" prefHeight="10.0" prefWidth="120.0">
@@ -34,7 +34,7 @@
             </ChoiceBox>
             <Label prefHeight="52.0" prefWidth="65.0" text="Subject:">
                <HBox.margin>
-                  <Insets left="5.0" right="10.0" />
+                  <Insets left="15.0" right="5.0" />
                </HBox.margin>
             </Label>
             <ChoiceBox fx:id="subjectDropDownList" prefWidth="120.0">
@@ -44,7 +44,7 @@
             </ChoiceBox>
             <Label prefHeight="52.0" prefWidth="73.0" text="Number:">
                <HBox.margin>
-                  <Insets left="5.0" right="10.0" />
+                  <Insets left="15.0" right="5.0" />
                </HBox.margin>
             </Label>
             <TextField fx:id="courseNumberField" prefHeight="26.0" prefWidth="75.0">
@@ -67,16 +67,6 @@
                </HBox.margin>
             </Button>
             <Button fx:id="infoButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="57.0" text="Info">
-               <HBox.margin>
-                  <Insets left="10.0" top="14.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" text="Save">
-               <HBox.margin>
-                  <Insets left="10.0" top="14.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="loadButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="57.0" text="Load">
                <HBox.margin>
                   <Insets left="10.0" right="10.0" top="14.0" />
                </HBox.margin>
@@ -107,9 +97,9 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </TextArea>
-            <Button fx:id="addCourseButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Add Selected Course">
+            <Button fx:id="addCourseButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="Add Selected Course">
                <VBox.margin>
-                  <Insets bottom="5.0" left="45.0" right="5.0" top="5.0" />
+                  <Insets bottom="5.0" left="40.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Button>
          </children>
@@ -143,8 +133,18 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </TextArea>
+            <ButtonBar>
+               <buttons>
+                  <Button fx:id="saveButton" text="Save"/>
+                  <Button fx:id="loadButton" text="Load"/>
+               </buttons>
+               <VBox.margin>
+                  <Insets bottom="5.0" right="22.0" top="5.0" />
+               </VBox.margin>
+            </ButtonBar>
          </children>
       </VBox>
+
    </right>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
