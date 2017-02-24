@@ -2,7 +2,7 @@
 
 Pull schedule and Analyze grade reports from TAMU registrar so you can choose the best professors
 
-## **Executable can be directly downloaded [here](https://github.com/Juliang0705/CoursePicker/releases/download/v1.0/CoursePicker.jar)**
+## **Executable can be directly downloaded [here](https://s3.us-east-2.amazonaws.com/coursepicker/CoursePicker.jar)**
 
 Features includes:
 
@@ -11,3 +11,4 @@ Features includes:
 * Check time conflict
 * Course summary
 * Semester GPA prediction
+* Save and Load course schedules
