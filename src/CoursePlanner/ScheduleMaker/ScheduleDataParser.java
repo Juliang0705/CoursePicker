@@ -1,13 +1,19 @@
 package CoursePlanner.ScheduleMaker;
+/**
+ * Created by Juliang on 4/4/16.
+ * Updated to bring to working condition by Jeffrey Cordero 12/16/2016
+ */
+
+import sun.java2d.opengl.WGLSurfaceData;
 
 import java.nio.charset.Charset;
 import java.time.DayOfWeek;
 import java.util.*;
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/**
- * Created by Juliang on 4/4/16.
- */
+
 public class ScheduleDataParser {
     private ScheduleDataGetter dataGetter;
     private List<FutureCourse> courseList;
@@ -32,7 +38,7 @@ public class ScheduleDataParser {
      */
     private List<FutureCourse> parseCourses(){
 
-        /**
+         /**
          * Parsing rules
          * 1. Lots of lines
          * 2. One line with subject name in it
@@ -64,13 +70,23 @@ public class ScheduleDataParser {
                 List<FutureCourse.TimeInterval> time = new ArrayList<>();
                 InputStream stream = new ByteArrayInputStream(data.getBytes(Charset.forName("UTF-8")));
                 Scanner in = new Scanner(stream);
+
                 while (in.hasNextLine()){
                     line = in.nextLine();
-                    if (line.contains(this.dataGetter.getSubject()) && course == null){
+                    if (line.isEmpty()){
+                        continue;
+                    }else if (line.contains(this.dataGetter.getSubject()) && course == null){
                         course = this.dataGetter.getSubject();
-                        number = line.substring(line.length()-9,line.length()-6);
-                        section = line.substring(line.length()-3,line.length());
                         term = this.dataGetter.getTerm();
+
+                        String patternStr = course + "+ +([0-9]{3})+ - +([0-9]{3})";  //Matches the course with the following number and section
+                        Pattern pattern = Pattern.compile(patternStr);
+                        Matcher matcher = pattern.matcher(line);
+                        if(matcher.find()){
+                            number = matcher.group(1);
+                            section = matcher.group(2);
+                            System.out.println("Found Course: " + matcher.group(0)); //TODO: Remove (Testing)
+                        }
                     }else if (line.contains("Instructors:")){
                         String fullname[] = in.nextLine().split("\\s+");
                         if (fullname.length == 2){ //  Hyunyoung Lee
@@ -82,7 +98,7 @@ public class ScheduleDataParser {
                         }else if (fullname.length == 4){ //Hyunyoung j Lee (P)
                             instructor = fullname[0] + " " + fullname[2];
                         }
-                    }else if (line.contains("Credit")){
+                    }else if (line.contains("Credits")){
                         credits = Integer.parseInt(line.substring(line.indexOf("Credits")-6,line.indexOf("Credits")-5));
                     }else if (line.contains(" am") || line.contains(" pm")){
                         String[] interval = line.split(" - ");
@@ -119,21 +135,25 @@ public class ScheduleDataParser {
                     }
                 }
                 if (instructor != null && course != null && number != null && section != null && term != null
-                        && credits != -1 && !time.isEmpty())
+                        && credits != -1 && !time.isEmpty()){
                     futureCourseList.add(new FutureCourse(instructor, course, number, section, term, credits, time));
+                }
             }
         }catch(Exception e){
             System.out.println(e);
+            System.out.println(futureCourseList.size());
             return null;
         }
         return futureCourseList;
     }
+
+
     public ScheduleDataParser(ScheduleDataGetter getter){
         this.dataGetter = getter;
     }
 
     public List<FutureCourse> getCourseList() throws Exception{
-        if (this.courseList == null){
+        if (this.courseList == null) {
             this.courseList = parseCourses();
         }
         if (this.courseList == null || this.courseList.isEmpty())
