@@ -1,6 +1,14 @@
-# CoursePicker
-Analyze grade reports from TAMU registrar to choose the best professors
+# TAMU Course Picker
 
-* When "Get Data" button is clicked, the screen will appear frozen as the app is downloading data from TAMU server. It caches those data locally in CoursePickerData folder under the same directory as the app in order to speed up the process next time. Feel free to delete the folder if it bothers you.
-* The "Year" drop-down box represents how many years of record you want to get. 1 means since last year. 2 means since last two year and so on. 
-* Summer sections are ignored because I don't believe the accuracy of those data.
+Pull schedule and Analyze grade reports from TAMU registrar so you can choose the best professors
+
+## **Executable can be directly downloaded [here](https://s3.us-east-2.amazonaws.com/coursepicker/CoursePicker.jar)**
+
+Features includes:
+
+* Pull schedule in real time so you can get most accurate data
+* Pair courses with historical grade reports if available
+* Check time conflict
+* Course summary
+* Semester GPA prediction
+* Save and Load course schedules

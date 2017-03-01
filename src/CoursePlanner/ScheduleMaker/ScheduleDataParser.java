@@ -3,9 +3,6 @@ package CoursePlanner.ScheduleMaker;
  * Created by Juliang on 4/4/16.
  * Updated to bring to working condition by Jeffrey Cordero 12/16/2016
  */
-
-import sun.java2d.opengl.WGLSurfaceData;
-
 import java.nio.charset.Charset;
 import java.time.DayOfWeek;
 import java.util.*;
