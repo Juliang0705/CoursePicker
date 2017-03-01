@@ -8,7 +8,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<?import org.controlsfx.control.ButtonBar?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CoursePickerGUIController">
    <top>
       <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -129,20 +128,14 @@
                   <Insets left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Label>
-            <TextArea fx:id="summaryTextView" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true">
+            <TextArea fx:id="summaryTextView" editable="false" prefHeight="175.0" prefWidth="197.0" wrapText="true">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </TextArea>
-            <ButtonBar>
-               <buttons>
-                  <Button fx:id="saveButton" text="Save"/>
-                  <Button fx:id="loadButton" text="Load"/>
-               </buttons>
-               <VBox.margin>
-                  <Insets bottom="5.0" right="22.0" top="5.0" />
-               </VBox.margin>
-            </ButtonBar>
+            <Button fx:id="saveButton" text="Save">
+            </Button>
+            <Button fx:id="loadButton" text="Load" />
          </children>
       </VBox>
 
