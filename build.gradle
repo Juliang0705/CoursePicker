@@ -1,38 +1,8 @@
-apply plugin: 'idea'
-apply plugin: 'java'
-apply plugin: 'application'
-
-version = '2.0'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-mainClassName = 'Main'
-applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
-
-repositories {
-    mavenCentral()
-}
-
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main'
-        }
-        resources {
-            srcDir 'src/resources'
-        }
+subprojects {
+    repositories {
+        mavenCentral()
     }
-}
-
-dependencies {
-    compile fileTree(dir: 'src/lib', include: ['*.jar'])
-}
-
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'CoursePicker',
-                'Implementation-Version': version,
-                'Main-Class': 'Main'
-    }
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'application'
 }

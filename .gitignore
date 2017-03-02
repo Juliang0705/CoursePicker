@@ -12,7 +12,7 @@
 hs_err_pid*
 .*
 out/*
-build/*
+/build/
 *.iml
 *.ipr
 *.iws

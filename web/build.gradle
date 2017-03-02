@@ -1,0 +1,12 @@
+version = '1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+mainClassName = 'com.coursepickerweb.Main'
+applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
+
+dependencies {
+    compile "com.sparkjava:spark-core:2.5.5"
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.1'
+    compile project(':core')
+}

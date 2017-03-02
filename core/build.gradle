@@ -1,0 +1,30 @@
+version = '2.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+mainClassName = 'com.coursepicker.Main'
+applicationDefaultJvmArgs = ["-Dgreeting.language=en"]
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'src/lib', include: ['*.jar'])
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'CoursePicker',
+                'Implementation-Version': version,
+                'Main-Class': 'com.coursepicker.Main'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
