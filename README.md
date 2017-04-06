@@ -16,11 +16,11 @@ Note: Needs Java Development Kit(JDK) installed. You can get it [here](http://ww
 
 ## Issues
 
-### Macs
+### Mac
 
-1. Seeing the following error message on Macs?
+1. Seeing the following error message on Mac?
 
-![Error](http://i.imgur.com/0S9Xtgs.png)
+![Error](http://i.imgur.com/G2uBhYa.png)
 
 Try right-clicking and then opening the application and then click on Open
 
