@@ -1,4 +1,6 @@
-# TAMU Course Picker [Download](https://github.com/Juliang0705/CoursePicker/releases/download/v1.0/CoursePicker.jar)
+# TAMU Course Picker
+
+### **[Download](https://github.com/Juliang0705/CoursePicker/releases/download/v1.0/CoursePicker.jar)**
 
 Analyze grade distributions for all TAMU classes.
 
