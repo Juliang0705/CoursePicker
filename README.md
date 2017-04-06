@@ -4,7 +4,7 @@
 
 Analyze grade distributions for all TAMU classes.
 
-![Screenshot of the app](http://imgur.com/JBRY0fz)
+![Screenshot of the app](http://imgur.com/gallery/LeoJK)
 
 ## Features
 
