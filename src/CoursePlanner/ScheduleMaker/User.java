@@ -2,7 +2,7 @@ package CoursePlanner.ScheduleMaker;
 
 /**
  * Created by Juliang on 4/10/16.
- *  * Updated by Jeffrey Cordero on 1/19/2017
+ * Updated by Jeffrey Cordero on 1/19/2017
  */
 import java.util.*;
 

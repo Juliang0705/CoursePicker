@@ -147,6 +147,7 @@
             </ButtonBar>
          </children>
       </VBox>
+
    </right>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">

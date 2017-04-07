@@ -32,9 +32,10 @@ Try right-clicking and then opening the application and then click on Open
 2. Make sure you have the JDK installed (http://www.oracle.com/technetwork/java/javase/downloads/)
 
 ### Windows
+Time to switch to a Mac :)
 
 Look here: [here](http://stackoverflow.com/questions/8511063/how-to-run-jar-file-by-double-click-on-windows-7-64)
 
 Also, make sure you have the JDK installed!
 
-**Still having issues? Or have feedback? Drop me a line on jeffreycordero@tamu.edu!
+**Still having issues? Or have feedback? Drop me a line on jeffreycordero@tamu.edu or hyadav@tamu.edu or [messenger me](https://m.me/him229)**!
