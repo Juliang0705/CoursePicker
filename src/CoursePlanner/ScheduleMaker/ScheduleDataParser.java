@@ -76,11 +76,6 @@ public class ScheduleDataParser {
                     if (line.isEmpty()){
                         continue;
                     }else if (line.contains(this.dataGetter.getSubject()) && course == null){
-<<<<<<< HEAD
-                        if (line.contains(" (Syllabus)"))
-                            line = line.substring(0,line.indexOf(" (Syllabus)"));
-=======
->>>>>>> refs/remotes/origin/development
                         course = this.dataGetter.getSubject();
                         term = this.dataGetter.getTerm();
 

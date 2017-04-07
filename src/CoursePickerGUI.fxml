@@ -18,11 +18,7 @@
    <top>
       <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-<<<<<<< HEAD
-            <Label prefHeight="52.0" prefWidth="55.0" text="Year: ">
-=======
             <Label prefHeight="52.0" prefWidth="40.0" text="Year: ">
->>>>>>> refs/remotes/origin/development
                <HBox.margin>
                   <Insets left="15.0" />
                </HBox.margin>
@@ -32,15 +28,9 @@
                   <Insets top="14.0" />
                </HBox.margin>
             </TextField>
-<<<<<<< HEAD
-            <Label prefHeight="52.0" prefWidth="86.0" text="Semester:">
-               <HBox.margin>
-                  <Insets left="5.0" right="10.0" />
-=======
             <Label prefHeight="52.0" prefWidth="72.0" text="Semester:">
                <HBox.margin>
                   <Insets left="15.0" right="5.0" />
->>>>>>> refs/remotes/origin/development
                </HBox.margin>
             </Label>
             <ChoiceBox fx:id="semesterDropDownList" prefHeight="10.0" prefWidth="120.0">
@@ -48,15 +38,9 @@
                   <Insets top="14.0" />
                </HBox.margin>
             </ChoiceBox>
-<<<<<<< HEAD
-            <Label prefHeight="52.0" prefWidth="65.0" text="Subject:">
-               <HBox.margin>
-                  <Insets left="5.0" right="10.0" />
-=======
             <Label prefHeight="52.0" prefWidth="59.0" text="Subject:">
                <HBox.margin>
                   <Insets left="15.0" right="5.0" />
->>>>>>> refs/remotes/origin/development
                </HBox.margin>
             </Label>
             <ChoiceBox fx:id="subjectDropDownList" prefWidth="120.0">
@@ -64,15 +48,9 @@
                   <Insets top="14.0" />
                </HBox.margin>
             </ChoiceBox>
-<<<<<<< HEAD
-            <Label prefHeight="52.0" prefWidth="73.0" text="Number:">
-               <HBox.margin>
-                  <Insets left="5.0" right="10.0" />
-=======
             <Label prefHeight="52.0" prefWidth="62.0" text="Number:">
                <HBox.margin>
                   <Insets left="15.0" right="5.0" />
->>>>>>> refs/remotes/origin/development
                </HBox.margin>
             </Label>
             <TextField fx:id="courseNumberField" prefHeight="26.0" prefWidth="75.0">
@@ -86,15 +64,9 @@
                   <Insets left="20.0" top="14.0" />
                </HBox.margin>
             </Button>
-<<<<<<< HEAD
-            <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" text="Help">
-               <HBox.margin>
-                  <Insets left="20.0" top="14.0" />
-=======
             <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="66.0" text="Help">
                <HBox.margin>
                   <Insets left="10.0" top="14.0" />
->>>>>>> refs/remotes/origin/development
                </HBox.margin>
             </Button>
             <Button fx:id="infoButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="57.0" text="Info">
