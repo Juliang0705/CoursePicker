@@ -41,7 +41,7 @@ public class User {
             if (!course.getTerm().equals(c.getTerm()))
                 throw new Exception("Selected courses occur in different terms.");
             if (course.hasTimeConflict(c))
-                throw new Exception("Current Selected Course " + c.toString() +" has time conflict with "+
+                throw new Exception("Current Selected Course " + c.toString() +"\nhas time conflict with "+
                 course.toString());
         }
         selectedCourses.add(c);
