@@ -1,0 +1,68 @@
+/*Root View Settings*/
+.root{
+    -fx-base: white;
+    -fx-background: white;
+    -fx-border-width: 1;
+    -fx-text-fill: #1d1d1d;
+    -fx-border-color: #1d1d1d;
+    -fx-font: "Arial";
+}
+
+/*.left-container {*/
+    /*-fx-background-color: black;*/
+/*}*/
+
+.text-field {
+    -fx-border-width: 1;
+    -fx-border-color: black;
+}
+
+.button {
+    /*-fx-padding: 5 22 5 22;*/
+    -fx-border-color: black;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+.button:hover {
+    -fx-background-color: #dddddd;
+}
+
+.button:pressed, .button:default:hover:pressed {
+    -fx-background-color: white;
+}
+
+.button:focused {
+}
+
+.button:disabled, .button:default:disabled {
+    -fx-opacity: 0.4;
+    -fx-background-color: #1d1d1d;
+    -fx-text-fill: white;
+}
+
+.button:default {
+    -fx-background-color: -fx-focus-color;
+    -fx-text-fill: #ffffff;
+}
+
+.button:default:hover {
+    -fx-background-color: derive(-fx-focus-color,30%);
+}
+
+.choice-box {
+    -fx-background-color: white;
+    -fx-border-color: black;
+}
+
+.label {
+
+}
+
+.text-area {
+
+}
+
+.radio-button{
+    -fx-background-color: white;
+}

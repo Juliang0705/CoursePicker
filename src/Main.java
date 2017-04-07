@@ -15,7 +15,7 @@ public class Main extends Application{
         final FXMLLoader guiLoader = new FXMLLoader(getClass().getResource("CoursePickerGUI.fxml"));
         this.root = guiLoader.load();
         primaryStage.setScene(new Scene(root, 1000, 700));
-        primaryStage.setTitle("Course Picker 2.0");
+        primaryStage.setTitle("Course Picker 2.1");
         primaryStage.setResizable(false);
         primaryStage.show();
         CoursePickerGUIController controller = guiLoader.getController();
