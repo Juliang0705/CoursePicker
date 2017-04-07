@@ -4,6 +4,8 @@ package CoursePlanner.ScheduleMaker;
  * Updated to bring to working condition by Jeffrey Cordero 12/16/2016
  */
 
+import sun.java2d.opengl.WGLSurfaceData;
+
 import java.nio.charset.Charset;
 import java.time.DayOfWeek;
 import java.util.*;
@@ -36,7 +38,7 @@ public class ScheduleDataParser {
      */
     private List<FutureCourse> parseCourses(){
 
-        /**
+         /**
          * Parsing rules
          * 1. Lots of lines
          * 2. One line with subject name in it
@@ -68,22 +70,27 @@ public class ScheduleDataParser {
                 List<FutureCourse.TimeInterval> time = new ArrayList<>();
                 InputStream stream = new ByteArrayInputStream(data.getBytes(Charset.forName("UTF-8")));
                 Scanner in = new Scanner(stream);
+
                 while (in.hasNextLine()){
                     line = in.nextLine();
                     if (line.isEmpty()){
                         continue;
                     }else if (line.contains(this.dataGetter.getSubject()) && course == null){
+<<<<<<< HEAD
                         if (line.contains(" (Syllabus)"))
                             line = line.substring(0,line.indexOf(" (Syllabus)"));
+=======
+>>>>>>> refs/remotes/origin/development
                         course = this.dataGetter.getSubject();
                         term = this.dataGetter.getTerm();
-						
-						String patternStr = course + "+ +([0-9]{3})+ - +([0-9]{3})";  //Matches the course with the following number and section
+
+                        String patternStr = course + "+ +([0-9]{3})+ - +([0-9]{3})";  //Matches the course with the following number and section
                         Pattern pattern = Pattern.compile(patternStr);
                         Matcher matcher = pattern.matcher(line);
                         if(matcher.find()){
                             number = matcher.group(1);
                             section = matcher.group(2);
+                            System.out.println("Found Course: " + matcher.group(0)); //TODO: Remove (Testing)
                         }
                     }else if (line.contains("Instructors:")){
                         String fullname[] = in.nextLine().split("\\s+");
@@ -133,8 +140,9 @@ public class ScheduleDataParser {
                     }
                 }
                 if (instructor != null && course != null && number != null && section != null && term != null
-                        && credits != -1 && !time.isEmpty())
+                        && credits != -1 && !time.isEmpty()){
                     futureCourseList.add(new FutureCourse(instructor, course, number, section, term, credits, time));
+                }
             }
         }catch(Exception e){
             System.out.println(e);
@@ -143,12 +151,14 @@ public class ScheduleDataParser {
         }
         return futureCourseList;
     }
+
+
     public ScheduleDataParser(ScheduleDataGetter getter){
         this.dataGetter = getter;
     }
 
     public List<FutureCourse> getCourseList() throws Exception{
-        if (this.courseList == null){
+        if (this.courseList == null) {
             this.courseList = parseCourses();
         }
         if (this.courseList == null || this.courseList.isEmpty())

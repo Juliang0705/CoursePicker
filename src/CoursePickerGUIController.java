@@ -1,6 +1,8 @@
 /**
  * Created by Juliang on 4/7/16.
+ * Updated to add new functions by Jeffrey Cordero 12/21/2016
  */
+import CoursePlanner.DataFileIO;
 import CoursePlanner.PastCourse;
 import CoursePlanner.ScheduleMaker.FutureCourse;
 import CoursePlanner.ScheduleMaker.ScheduleDataGetter;
@@ -15,6 +17,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
@@ -25,13 +28,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import jfxtras.scene.control.agenda.*;
-import org.controlsfx.dialog.Dialogs;
 
-import java.awt.*;
+import java.awt.Desktop;
+import java.io.*;
 import java.net.URI;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -39,10 +44,13 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ThreadFactory;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.scene.control.ProgressIndicator;
-import org.controlsfx.dialog.ExceptionDialog;
 
 public class CoursePickerGUIController {
     //elements from fxml
@@ -61,6 +69,14 @@ public class CoursePickerGUIController {
     @FXML
     private Button infoButton;
     @FXML
+    private Button saveButton;
+    @FXML
+    private Button loadButton;
+    @FXML
+    /**
+     * Courses displayed in left "available courses" box
+     * Listview filled from fetchDataButton
+     */
     private ListView<FutureCourse> courseListView;
     @FXML
     private TextArea courseDetailTextView;
@@ -76,6 +92,10 @@ public class CoursePickerGUIController {
     @FXML
     private RadioButton barChartToggleButton;
     @FXML
+    /**
+     * Courses displayed in right "selected courses" box
+     * Listview filled from addCourseBurron and removed with deleteCourseButton
+     */
     private ListView<FutureCourse> selectedCourseListView;
     @FXML
     private Button deleteCourseButton;
@@ -86,7 +106,9 @@ public class CoursePickerGUIController {
     private Stage loadingStage;
     private ProgressIndicator indicator;
     private Stage infoStage;
+    private Stage loadWarningStage;
     private Task<List<FutureCourse>> dataFetchingTask;
+    private Desktop desktop = Desktop.getDesktop();
 
     private void initGUI(){
         //initialize the scheduleView
@@ -110,10 +132,13 @@ public class CoursePickerGUIController {
 
         this.loadingStage = getLoadingStage();
         this.infoStage = getInfoStage();
-
+        this.loadWarningStage = getLoadWarningStage();
     }
     private void initAction(){
-        //on click -> get data!!
+        /**
+         * on click -> get data!!
+         * Fetches data from website, creates object for each class (by section), then adds to courseListView
+         */
         fetchDataButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -135,6 +160,11 @@ public class CoursePickerGUIController {
                                 }
                             });
                         }
+                        /**
+                         * Takes input to query search
+                         * @return fetchedCourses
+                         * @throws Exception
+                         */
                         @Override
                         protected List<FutureCourse> call() throws Exception {
                                 List<FutureCourse> fetchedCourses = SchedulePlanner.getInstance().getCourse(yearInputBox.getText(),
@@ -207,39 +237,17 @@ public class CoursePickerGUIController {
             }
         });
 
+        /**
+         * Button action for Add Course Button
+         */
         addCourseButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 FutureCourse selectedFutureCourse = courseListView.getSelectionModel().getSelectedItem();
-                if (selectedFutureCourse == null)
-                    return;
-                try{
-                    User.currentUser().addCourse(selectedFutureCourse);
-                    selectedCourseListView.getItems().add(selectedFutureCourse);
-                    String key = selectedFutureCourse.toString();
-                    Agenda.AppointmentGroupImpl newGroup = new Agenda.AppointmentGroupImpl();
-                    newGroup.setStyleClass("group"+(int )(Math.random() * 23 + 1));
-                    appointmentGroupMap.put(key,newGroup);
 
-                    List<FutureCourse.TimeInterval> timeIntervalList = selectedFutureCourse.getTime();
-                    for (FutureCourse.TimeInterval time: timeIntervalList) {
-                        for (DayOfWeek day: time.getDays()) {
-                            Agenda.AppointmentImplLocal newAppointment = new Agenda.AppointmentImplLocal()
-                                    .withStartLocalDateTime(LocalDate.from(day.adjustInto(LocalDate.now())).atTime(time.getStartHour(),time.getStartMinute()))
-                                    .withEndLocalDateTime(LocalDate.from(day.adjustInto(LocalDate.now())).atTime(time.getEndHour(),time.getEndMinute()))
-                                    .withSummary(selectedFutureCourse.toString())
-                                    .withAppointmentGroup(appointmentGroupMap.get(key));
-                            if (!appointmentMap.containsKey(appointmentGroupMap.get(key))) {
-                                appointmentMap.put(appointmentGroupMap.get(key),new ArrayList<>());
-                            }
-                            appointmentMap.get(appointmentGroupMap.get(key)).add(newAppointment);
-                            scheduleView.appointments().add(newAppointment);
-                        }
-                    }
-                    summaryTextView.setText(User.currentUser().toString());
-                }catch(Exception e){
-                    showAlert(e);
-                }
+                if (selectedFutureCourse == null)
+                    return; //If no classes were selected on press
+                addCourse(selectedFutureCourse);
             }
         });
 
@@ -277,7 +285,96 @@ public class CoursePickerGUIController {
                 }
             }
         });
+
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save Course Selections");
+                fileChooser.setInitialFileName("filename.txt");
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT file(*.txt)" ," *.txt");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showSaveDialog(rootStage);
+                if(file != null) {
+                    try{
+                        DataFileIO fileIO = new DataFileIO(file);
+                        fileIO.saveFile();
+                    }catch (IOException ex){
+                        showAlert(ex);
+                    }
+                }
+            }
+        });
+
+        loadButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                List<FutureCourse> futureCourseList = new ArrayList<>();
+
+                //Show load warning stage, only if classes were already added
+                if (!selectedCourseListView.getItems().isEmpty()) loadWarningStage.showAndWait();
+                //Show file chooser for file selection
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Load Course Selections");
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT file(*.txt)" ," *.txt");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showOpenDialog(rootStage);
+                if(file != null) {
+                    try{
+                        //Erase current data
+                        if (!selectedCourseListView.getItems().isEmpty()) deleteAllCourses();
+                        //Read file with load data:
+                        DataFileIO fileIO = new DataFileIO(file);
+                        futureCourseList = fileIO.readLoadFile();
+                        //Add each course from file to program
+                        for (FutureCourse selectedFutureCourse:futureCourseList)
+                            addCourse(selectedFutureCourse);
+                    }catch (IOException ex){
+                        showAlert(ex);
+                    }
+                }
+            }
+        });
     }
+
+    /*
+     * Takes a FutureCourse object and adds it to the User object and schedule
+     * Adds course to user object.  Adds course to appointment schedule of courses
+     * @param FutureCourse Course to add
+     */
+    private void addCourse (FutureCourse selectedFutureCourse){
+        try {
+            User.currentUser().addCourse(selectedFutureCourse);//Check for conflicts then add to user object
+            selectedCourseListView.getItems().add(selectedFutureCourse);//Add selected course to selected list
+            String key = selectedFutureCourse.toString();
+            Agenda.AppointmentGroupImpl newGroup = new Agenda.AppointmentGroupImpl();
+            newGroup.setStyleClass("group" + (int) (Math.random() * 23 + 1));
+            appointmentGroupMap.put(key, newGroup);
+
+            //Adding class into agenda for graphic scheduling
+            List<FutureCourse.TimeInterval> timeIntervalList = selectedFutureCourse.getTime();
+            for (FutureCourse.TimeInterval time : timeIntervalList) {
+                for (DayOfWeek day : time.getDays()) {
+                    Agenda.AppointmentImplLocal newAppointment = new Agenda.AppointmentImplLocal()
+                            .withStartLocalDateTime(LocalDate.from(day.adjustInto(LocalDate.now())).atTime(time.getStartHour(), time.getStartMinute()))
+                            .withEndLocalDateTime(LocalDate.from(day.adjustInto(LocalDate.now())).atTime(time.getEndHour(), time.getEndMinute()))
+                            .withSummary(selectedFutureCourse.toString())
+                            .withAppointmentGroup(appointmentGroupMap.get(key));
+                    if (!appointmentMap.containsKey(appointmentGroupMap.get(key))) {
+                        appointmentMap.put(appointmentGroupMap.get(key), new ArrayList<>());
+                    }
+                    appointmentMap.get(appointmentGroupMap.get(key)).add(newAppointment);
+                    scheduleView.appointments().add(newAppointment);
+                }
+            }
+            summaryTextView.setText(User.currentUser().toString());//Add data to User Summary box
+        } catch (Exception e) {
+            showAlert(e);
+        }
+    }
+
+    //HashMap used to store class scheduling data
     private HashMap<String,Agenda.AppointmentGroupImpl> appointmentGroupMap = new HashMap<>();
     private HashMap<Agenda.AppointmentGroupImpl,List<Agenda.AppointmentImplLocal>> appointmentMap = new HashMap<>();
     public void init(Stage s){
@@ -348,6 +445,25 @@ public class CoursePickerGUIController {
         bc.getData().addAll(seriesA,seriesB,seriesC,seriesD,seriesF,seriesQ);
         this.graphPane.getChildren().add(bc);
     }
+    /* Deletes all courses from currentUser object and selectedCourseListView... */
+    private void deleteAllCourses(){
+        //Access each item from list and delete it
+        ObservableList<FutureCourse> futureCourseList = selectedCourseListView.getItems();
+        while (!futureCourseList.isEmpty()){
+            //Access the first course
+            FutureCourse selectedFutureCourse = futureCourseList.get(0);
+            User.currentUser().removeCourse(selectedFutureCourse);
+            selectedCourseListView.getItems().remove(selectedFutureCourse);
+            List<Agenda.AppointmentImplLocal> listToRemove = appointmentMap.get(appointmentGroupMap.get(selectedFutureCourse.toString()));
+            scheduleView.appointments().removeAll(listToRemove);
+            appointmentGroupMap.remove(selectedFutureCourse.toString());
+            appointmentMap.remove(appointmentGroupMap.get(selectedFutureCourse.toString()));
+            appointmentGroupMap.remove(selectedFutureCourse.toString());
+            summaryTextView.setText(User.currentUser().toString());
+            //Remove deleted course from list
+            futureCourseList.remove(selectedFutureCourse);
+        }
+    }
     private void showAlert(Throwable e){
         System.out.println("In main thread: "+ e.getMessage());
         Stage errorStage = new Stage();
@@ -385,9 +501,24 @@ public class CoursePickerGUIController {
         infoStage.initModality(Modality.WINDOW_MODAL);
         infoStage.setResizable(false);
         infoStage.setTitle("About");
-        String heart = "Made by Juliang\'18 with love";
+        String heart = "Made by Juliang\'18 with love,\n" +
+                "Now updated by Jeffrey Cordero \'19!";
         Label aboutAuthor = new Label(heart);
-        infoStage.setScene(new Scene(new StackPane(aboutAuthor),200,100));
+        infoStage.setScene(new Scene(new StackPane(aboutAuthor),250,120));
         return infoStage;
+    }
+    /* Pop-up stage to warn that the load feature will erase the currently selected classes*/
+    private Stage getLoadWarningStage(){
+        Stage loadWarningStage = new Stage();
+        loadWarningStage.initOwner(this.rootStage);
+        loadWarningStage.initModality(Modality.WINDOW_MODAL);
+        loadWarningStage.setResizable(false);
+        loadWarningStage.setTitle("Load Warning");
+        String warning = "Selecting a load file will\nerase any currently selected classes\n\n" +
+                "Note: The load feature is not finished\nand classes may have changed (do check)";
+        Label warningLabel = new Label(warning);
+        warningLabel.setTextAlignment(TextAlignment.CENTER);
+        loadWarningStage.setScene(new Scene(new StackPane(warningLabel),300,150));
+        return loadWarningStage;
     }
 }

@@ -76,7 +76,7 @@ public class SchedulePlanner {
         //get it from the server(slower)
         int currentYear = Year.now().getValue();
         if (Integer.parseInt(year) != currentYear && Integer.parseInt(year) != currentYear+1)
-            throw new Exception("It is pointless to look up past courses or future years for scheduling purpose");
+            throw new Exception("It is pointless to look up past courses or future years for scheduling purpose.");
         if (!allSubjects.contains(subject))
             throw new Exception("Subject "+subject+ " not found");
         ScheduleDataParser parser = new ScheduleDataParser(new ScheduleDataGetter(year,semester,subject));

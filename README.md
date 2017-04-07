@@ -1,5 +1,6 @@
 # TAMU Course Picker
 
+<<<<<<< HEAD
 ### **[Download](https://s3.us-east-2.amazonaws.com/coursepicker/CoursePicker.jar)**
 
 Analyze grade distributions for all TAMU classes.
@@ -38,3 +39,8 @@ Look here: [here](http://stackoverflow.com/questions/8511063/how-to-run-jar-file
 Also, make sure you have the JDK installed!
 
 **Still having issues? Or have feedback? Drop me a line on jeffreycordero@tamu.edu!
+=======
+* When "Get Data" button is clicked, the screen will appear frozen as the app is downloading data from TAMU server. It caches those data locally in CoursePickerData folder under the same directory as the app in order to speed up the process next time. Feel free to delete the folder if it bothers you.
+* The "Year" drop-down box represents how many years of record you want to get. 1 means since last year. 2 means since last two year and so on. 
+* Summer sections are ignored because I don't believe the accuracy of those data.
+>>>>>>> refs/remotes/origin/development
