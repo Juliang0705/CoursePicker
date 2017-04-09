@@ -56,7 +56,7 @@ public class ScheduleDataParser {
         try{
             for (String data: dataList){
                 if (!data.contains("Traditional"))
-                    continue
+                    continue;
                 String line;
                 String instructor = "TBA";
                 String course = null;
